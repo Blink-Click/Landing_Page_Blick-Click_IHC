@@ -64,6 +64,17 @@ body {
   opacity: 0.9;
 }
 
+.logo-img,
+section img {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.logo-img:hover,
+section img:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px rgba(255, 255, 255, 0.25);
+}
+
 .nav-links {
   display: flex;
   list-style: none;
