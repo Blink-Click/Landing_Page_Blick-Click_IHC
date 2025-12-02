@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blink Click - Tamaño de Elementos</title>
+    <title>Blink Click - Configuración del Paciente</title>
     <link rel="stylesheet" href="assets/styles/styles.css">
 </head>
 <body>
@@ -33,25 +33,55 @@
     <!-- Contenido principal -->
     <main class="main-content">
         <!-- Flecha hacia atrás -->
-        <a href="accessibility.html" class="back-arrow" title="Volver">
+        <a href="settings.html" class="back-arrow" title="Volver">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M19 12H5M12 19l-7-7 7-7"/>
             </svg>
         </a>
 
         <!-- Título -->
-        <h1 class="page-title">Tamaño de Elementos</h1>
+        <h1 class="page-title">Configuración del Paciente</h1>
 
-        <!-- Opciones -->
-        <div class="accessibility-options">
-            <a href="text-size-settings.html" class="accessibility-option">
-                <h3 class="accessibility-option-title">Tamaño de Texto</h3>
-                <p class="accessibility-option-subtitle">Ajusta el tamaño del texto</p>
+        <!-- Opciones de configuración -->
+        <div class="settings-options-container">
+            <a href="history.html" class="settings-option">
+                <div class="settings-option-icon">
+                    <img src="assets/images/mensaje.png" alt="Historial" class="settings-icon-img">
+                </div>
+                <div class="settings-option-content">
+                    <h2 class="settings-option-title">Historial</h2>
+                    <p class="settings-option-subtitle">Historial de consumo, cuentas, etc. Registro de uso y gestión de datos.</p>
+                </div>
             </a>
 
-            <a href="icon-size-settings.html" class="accessibility-option">
-                <h3 class="accessibility-option-title">Tamaño de Iconos</h3>
-                <p class="accessibility-option-subtitle">Ajusta el tamaño de los iconos</p>
+            <a href="cursor-list.html" class="settings-option">
+                <div class="settings-option-icon">
+                    <img src="assets/images/config.png" alt="Cursores" class="settings-icon-img">
+                </div>
+                <div class="settings-option-content">
+                    <h2 class="settings-option-title">Cursores</h2>
+                    <p class="settings-option-subtitle">Gestiona y configura los cursores personalizados.</p>
+                </div>
+            </a>
+
+            <a href="rest-mode.html" class="settings-option">
+                <div class="settings-option-icon">
+                    <img src="assets/images/config.png" alt="Modo reposo" class="settings-icon-img">
+                </div>
+                <div class="settings-option-content">
+                    <h2 class="settings-option-title">Modo reposo</h2>
+                    <p class="settings-option-subtitle">Configura el modo de reposo y descanso.</p>
+                </div>
+            </a>
+
+            <a href="visual-rest.html" class="settings-option">
+                <div class="settings-option-icon">
+                    <img src="assets/images/contraste.png" alt="Descanso visual" class="settings-icon-img">
+                </div>
+                <div class="settings-option-content">
+                    <h2 class="settings-option-title">Descanso visual</h2>
+                    <p class="settings-option-subtitle">Configuración de descanso visual para el paciente.</p>
+                </div>
             </a>
         </div>
     </main>

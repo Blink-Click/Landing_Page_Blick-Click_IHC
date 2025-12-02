@@ -43,7 +43,7 @@
         <h1 class="page-title">Configuraciones</h1>
 
         <!-- Opciones de configuración -->
-        <div class="settings-options-container">
+        <div class="settings-options-container" id="settingsOptions">
             <a href="link-caregiver.html" class="settings-option">
                 <div class="settings-option-icon">
                     <img src="assets/images/config.png" alt="Vincular" class="settings-icon-img">
@@ -76,7 +76,10 @@
 
             <a href="link-accounts.html" class="settings-option">
                 <div class="settings-option-icon">
-                    <img src="assets/images/usuario.jpg" alt="Vincular cuentas" class="settings-icon-img">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 30px; height: 30px; color: #00AA55;">
+                        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+                        <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+                    </svg>
                 </div>
                 <div class="settings-option-content">
                     <h2 class="settings-option-title">Vincular con cuentas</h2>
@@ -105,14 +108,46 @@
             <a href="messages.html" class="nav-icon" title="Mensajes">
                 <img src="assets/images/mensaje.png" alt="Mensajes" class="nav-icon-img">
             </a>
-            <a href="add.html" class="nav-icon" title="Agregar">
-                <img src="assets/images/agregarNota.png" alt="Agregar" class="nav-icon-img">
+            <a href="recordatorios.html" class="nav-icon" title="Recordatorios">
+                <img src="assets/images/agregarNota.png" alt="Recordatorios" class="nav-icon-img">
             </a>
             <a href="settings.html" class="nav-icon" title="Configuración">
                 <img src="assets/images/config.png" alt="Configuración" class="nav-icon-img">
             </a>
         </nav>
     </footer>
+    <script src="assets/scripts/script.js"></script>
+    <script>
+        // Mostrar opción de configuración del paciente solo si es cuidador
+        window.addEventListener('DOMContentLoaded', function() {
+            const perfil = localStorage.getItem('perfilSeleccionado') || 'paciente';
+            const settingsContainer = document.getElementById('settingsOptions');
+            
+            if (perfil === 'cuidador') {
+                // Crear la opción de configuración del paciente
+                const patientSettingsOption = document.createElement('a');
+                patientSettingsOption.href = 'patient-settings.html';
+                patientSettingsOption.className = 'settings-option';
+                patientSettingsOption.innerHTML = `
+                    <div class="settings-option-icon">
+                        <img src="assets/images/usuario.jpg" alt="Configuración del paciente" class="settings-icon-img">
+                    </div>
+                    <div class="settings-option-content">
+                        <h2 class="settings-option-title">Configuración del paciente</h2>
+                        <p class="settings-option-subtitle">Gestiona la configuración del paciente vinculado.</p>
+                    </div>
+                `;
+                
+                // Insertar después de "Vincular con cuidador"
+                const linkCaregiverOption = settingsContainer.querySelector('a[href="link-caregiver.html"]');
+                if (linkCaregiverOption && linkCaregiverOption.nextSibling) {
+                    settingsContainer.insertBefore(patientSettingsOption, linkCaregiverOption.nextSibling);
+                } else {
+                    settingsContainer.appendChild(patientSettingsOption);
+                }
+            }
+        });
+    </script>
 </body>
 </html>
 

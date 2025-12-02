@@ -29,15 +29,16 @@
     <main class="main-content">
         <!-- Botones de acceso rápido -->
             <div class="quick-access-container quick-access-grid" id="accesos-container">
-            <div class="quick-access-empty" data-role="empty-access">
-                <p>Añade tus accesos favoritos para verlos aquí.</p>
+            <div class="quick-access-empty" data-role="empty-access" style="display: none;">
             </div>
-            <a href="agregar-acceso.html" class="quick-access-btn quick-access-action" data-role="add-access" title="Agregar acceso">
-                <span class="quick-access-action-icon">+</span>
-            </a>
-            <button type="button" class="quick-access-btn quick-access-action" data-role="delete-access" title="Eliminar accesos">
-                <span class="quick-access-action-icon">-</span>
-            </button>
+            <div style="display: flex; gap: 10px; justify-content: center; width: 100%; margin-bottom: 20px;">
+                <a href="accesses.html" class="quick-access-btn quick-access-action" data-role="add-access" title="Agregar accesos" style="background-color: rgba(0, 170, 85, 0.5); text-decoration: none; display: flex; align-items: center; justify-content: center;">
+                    <span class="quick-access-action-icon">+</span>
+                </a>
+                <button type="button" class="quick-access-btn quick-access-action" data-role="delete-access" title="Eliminar accesos" style="background-color: rgba(0, 170, 85, 0.5);">
+                    <span class="quick-access-action-icon">-</span>
+                </button>
+            </div>
         </div>
 
         <!-- Título de bienvenida -->
