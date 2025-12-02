@@ -11,7 +11,7 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="assets/styles/styles.css" />
-    <script src="On.js" defer></script>
+    <script src="assets/scripts/script.js" defer></script>
   </head>
   <body>
     <!-- Navbar -->
@@ -27,6 +27,9 @@
             /></a>
           </h1>
         </div>
+        <button class="nav-toggle" type="button" aria-label="Abrir menú">
+          <span></span>
+        </button>
         <ul class="nav-links">
           <li class="nav-item-dropdown">
             <a  class="nav-link-dropdown">Inicio</a>
@@ -151,6 +154,7 @@
             // Guardar usuario
             localStorage.setItem("usuario", usuario);
             localStorage.setItem("logueado", "true");
+            localStorage.setItem("perfilSeleccionado", "cuidador");
 
             // Redirigir a home.html
             window.location.href = "home.html";

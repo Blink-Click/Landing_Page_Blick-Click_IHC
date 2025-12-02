@@ -48,28 +48,6 @@
             <div class="guide-image-container">
                 <img id="guide-image" src="assets/images/gui.jpeg" alt="Guía" class="guide-image">
             </div>
-
-            <!-- Navegación de imágenes -->
-            <div class="guide-navigation">
-                <button class="nav-arrow-btn" id="prev-btn" title="Anterior">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
-                        <path d="M15 18l-6-6 6-6"/>
-                    </svg>
-                </button>
-                <h2 class="guide-title">Pantalla inicial</h2>
-                <button class="nav-arrow-btn" id="next-btn" title="Siguiente">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
-                        <path d="M9 18l6-6-6-6"/>
-                    </svg>
-                </button>
-            </div>
-        </div>
-
-        <!-- Botón Personalizar -->
-        <div class="guide-buttons-container" style="margin-top: 20px; text-align: center;">
-            <a href="calendar.html" class="action-button">
-                Personalizar
-            </a>
         </div>
     </main>
 
@@ -91,23 +69,6 @@
         </nav>
     </footer>
 
-    <script>
-        // Funcionalidad para cambiar imágenes con las flechas
-        const guideImage = document.getElementById('guide-image');
-        const prevBtn = document.getElementById('prev-btn');
-        const nextBtn = document.getElementById('next-btn');
-        
-        // Por ahora, cambiar a imagen vacía cuando se presionan las flechas
-        prevBtn.addEventListener('click', function() {
-            guideImage.src = '';
-            guideImage.alt = 'Imagen vacía';
-        });
-        
-        nextBtn.addEventListener('click', function() {
-            guideImage.src = '';
-            guideImage.alt = 'Imagen vacía';
-        });
-    </script>
     <script src="assets/scripts/script.js"></script>
 </body>
 </html>

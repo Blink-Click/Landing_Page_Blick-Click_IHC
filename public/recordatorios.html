@@ -3,19 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blink Click - Contraste</title>
+    <title>Blink Click - Recordatorios</title>
     <link rel="stylesheet" href="assets/styles/styles.css">
 </head>
 <body>
-    <!-- Header con degradado -->
     <header class="top-banner">
         <div class="header-content">
-            <!-- Logo a la izquierda -->
             <div class="logo">
                 <img src="assets/images/logo.png" alt="BLINK CLICK" class="logo-img">
             </div>
-            
-            <!-- Iconos a la derecha -->
             <div class="header-icons">
                 <a href="contrast.html" class="icon-link" title="Cambiar contraste">
                     <img src="assets/images/contraste.png" alt="Cambiar contraste" class="icon-img">
@@ -30,43 +26,52 @@
         </div>
     </header>
 
-    <!-- Contenido principal -->
     <main class="main-content">
-        <!-- Flecha hacia atrás -->
         <a href="home.html" class="back-arrow" title="Volver">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M19 12H5M12 19l-7-7 7-7"/>
             </svg>
         </a>
 
-        <!-- Título -->
-        <h1 class="page-title">Contraste</h1>
+        <h1 class="page-title">Recordatorios</h1>
+        <p class="page-description">Organiza tus pendientes y recibe alertas visuales.</p>
 
-        <!-- Descripción -->
-        <p class="page-description">Ajusta el contraste de la interfaz para una mejor visualización</p>
+        <section class="reminders-panel">
+            <div class="reminder-list" id="reminders-list">
+                <article class="reminder-card">
+                    <div>
+                        <h3>Películas para ver</h3>
+                        <p>Organiza tu próxima maratón del fin de semana.</p>
+                    </div>
+                    <span class="reminder-date">25/09/25</span>
+                </article>
+                <article class="reminder-card">
+                    <div>
+                        <h3>Comidas del mes</h3>
+                        <p>Anota los ingredientes y evita olvidos en la compra.</p>
+                    </div>
+                    <span class="reminder-date">25/09/25</span>
+                </article>
+                <article class="reminder-card">
+                    <div>
+                        <h3>Planes de semana</h3>
+                        <p>Organiza tus actividades recreativas con antelación.</p>
+                    </div>
+                    <span class="reminder-date">25/09/25</span>
+                </article>
+            </div>
 
-        <!-- Opciones de contraste -->
-        <div class="buttons-container">
-            <a href="#" class="action-button">
-                Contraste Normal
-            </a>
-            <a href="#" class="action-button">
-                Contraste Alto
-            </a>
-            <a href="#" class="action-button">
-                Contraste Bajo
-            </a>
-        </div>
-
-        <div class="theme-toggle-card">
-            <p>Cambia entre modo oscuro y claro con un solo toque.</p>
-            <button type="button" class="action-button" id="toggle-theme">
-                Cargando...
-            </button>
-        </div>
+            <div class="reminder-actions">
+                <a href="agregar-recordatorio.html" class="action-button icon-only" id="reminders-add-btn" title="Agregar recordatorio">
+                    <span class="quick-access-action-icon">+</span>
+                </a>
+                <button type="button" class="action-button icon-only" id="reminders-delete-btn" title="Eliminar recordatorio">
+                    <span class="quick-access-action-icon">-</span>
+                </button>
+            </div>
+        </section>
     </main>
 
-    <!-- Footer con degradado y navegación -->
     <footer class="bottom-banner">
         <nav class="bottom-nav">
             <a href="home.html" class="nav-icon" title="Inicio">
@@ -83,6 +88,7 @@
             </a>
         </nav>
     </footer>
+
     <script src="assets/scripts/script.js"></script>
 </body>
 </html>

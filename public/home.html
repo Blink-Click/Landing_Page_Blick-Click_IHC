@@ -28,22 +28,16 @@
 
     <main class="main-content">
         <!-- Botones de acceso rápido -->
-        <div class="quick-access-container">
-            <a href="https://open.spotify.com" target="_blank" class="quick-access-btn" title="Spotify">
-                <img src="assets/images/spoti.png" alt="Spotify">
+            <div class="quick-access-container quick-access-grid" id="accesos-container">
+            <div class="quick-access-empty" data-role="empty-access">
+                <p>Añade tus accesos favoritos para verlos aquí.</p>
+            </div>
+            <a href="agregar-acceso.html" class="quick-access-btn quick-access-action" data-role="add-access" title="Agregar acceso">
+                <span class="quick-access-action-icon">+</span>
             </a>
-            <a href="https://www.youtube.com" target="_blank" class="quick-access-btn" title="Youtube">
-                <img src="assets/images/youtube.png" alt="Youtube">
-            </a>
-            <a href="https://www.facebook.com" target="_blank" class="quick-access-btn" title="Facebook">
-                <img src="assets/images/facebook.png" alt="Facebook">
-            </a>
-            <a href="https://twitter.com" target="_blank" class="quick-access-btn" title="Twitter">
-                <img src="assets/images/twiter.png" alt="Twitter">
-            </a>
-            <a href="agregar-acceso.html" class="quick-access-btn" title="Agregar">
-                <img src="assets/images/mas.png" alt="Agregar">
-            </a>
+            <button type="button" class="quick-access-btn quick-access-action" data-role="delete-access" title="Eliminar accesos">
+                <span class="quick-access-action-icon">-</span>
+            </button>
         </div>
 
         <!-- Título de bienvenida -->
@@ -68,8 +62,8 @@
             <a href="messages.html" class="nav-icon" title="Mensajes">
                 <img src="assets/images/mensaje.png" alt="Mensajes" class="nav-icon-img">
             </a>
-            <a href="add.html" class="nav-icon" title="Agregar">
-                <img src="assets/images/agregarNota.png" alt="Agregar" class="nav-icon-img">
+            <a href="recordatorios.html" class="nav-icon" title="Recordatorios">
+                <img src="assets/images/agregarNota.png" alt="Recordatorios" class="nav-icon-img">
             </a>
             <a href="settings.html" class="nav-icon" title="Configuración">
                 <img src="assets/images/config.png" alt="Configuración" class="nav-icon-img">

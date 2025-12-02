@@ -3,19 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blink Click - Accesos</title>
+    <title>Blink Click - Nuevo recordatorio</title>
     <link rel="stylesheet" href="assets/styles/styles.css">
 </head>
 <body>
-    <!-- Header con degradado -->
     <header class="top-banner">
         <div class="header-content">
-            <!-- Logo a la izquierda -->
             <div class="logo">
                 <img src="assets/images/logo.png" alt="BLINK CLICK" class="logo-img">
             </div>
-            
-            <!-- Iconos a la derecha -->
             <div class="header-icons">
                 <a href="contrast.html" class="icon-link" title="Cambiar contraste">
                     <img src="assets/images/contraste.png" alt="Cambiar contraste" class="icon-img">
@@ -30,44 +26,35 @@
         </div>
     </header>
 
-    <!-- Contenido principal -->
     <main class="main-content">
-        <!-- Flecha hacia atrás -->
-        <a href="home.html" class="back-arrow" title="Volver">
+        <a href="recordatorios.html" class="back-arrow" title="Volver">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M19 12H5M12 19l-7-7 7-7"/>
             </svg>
         </a>
 
-        <!-- Título -->
-        <h1 class="page-title">Acceso rápido</h1>
+        <h1 class="page-title">Nuevo recordatorio</h1>
+        <p class="page-description">Crea un recordatorio para verlo en tu lista principal.</p>
 
-        <!-- Atajos rápidos (estilo similar a Ajustes Rápidos) -->
-        <div class="shortcut-list">
-            <a href="https://www.google.com" target="_blank" class="shortcut-item">
-                Google
-                <span class="shortcut-icon">↗</span>
-            </a>
-            <a href="https://www.wikipedia.org" target="_blank" class="shortcut-item">
-                Wikipedia
-                <span class="shortcut-icon">↗</span>
-            </a>
-            <a href="https://twitter.com" target="_blank" class="shortcut-item">
-                Twitter
-                <span class="shortcut-icon">↗</span>
-            </a>
-            <a href="agregar-acceso.html" class="shortcut-item">
-                Agregar acceso rápido
-                <span class="shortcut-icon">+</span>
-            </a>
-            <a href="accesses.html" class="shortcut-item">
-                Eliminar acceso
-                <span class="shortcut-icon">-</span>
-            </a>
+        <div class="calendar-form-container">
+            <div class="form-field-group">
+                <label for="reminder-title" class="form-label">Título del recordatorio</label>
+                <input type="text" id="reminder-title" class="form-input" placeholder="Escribe el título">
+            </div>
+
+            <div class="form-field-group">
+                <label for="reminder-content" class="form-label">Nota o contenido</label>
+                <textarea id="reminder-content" class="form-input reminder-textarea" placeholder="Escribe los detalles"></textarea>
+            </div>
+
+            <div class="calendar-buttons">
+                <button type="button" id="save-reminder-btn" class="action-button">
+                    Listo
+                </button>
+            </div>
         </div>
     </main>
 
-    <!-- Footer con degradado y navegación -->
     <footer class="bottom-banner">
         <nav class="bottom-nav">
             <a href="home.html" class="nav-icon" title="Inicio">
@@ -76,15 +63,17 @@
             <a href="messages.html" class="nav-icon" title="Mensajes">
                 <img src="assets/images/mensaje.png" alt="Mensajes" class="nav-icon-img">
             </a>
-            <a href="add.html" class="nav-icon" title="Agregar">
-                <img src="assets/images/agregarNota.png" alt="Agregar" class="nav-icon-img">
+            <a href="recordatorios.html" class="nav-icon" title="Recordatorios">
+                <img src="assets/images/agregarNota.png" alt="Recordatorios" class="nav-icon-img">
             </a>
             <a href="settings.html" class="nav-icon" title="Configuración">
                 <img src="assets/images/config.png" alt="Configuración" class="nav-icon-img">
             </a>
         </nav>
     </footer>
+
     <script src="assets/scripts/script.js"></script>
 </body>
 </html>
+
 

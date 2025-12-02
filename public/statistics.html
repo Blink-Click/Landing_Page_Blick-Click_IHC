@@ -42,37 +42,33 @@
         <!-- Título -->
         <h1 class="page-title">Estadísticas</h1>
 
-        <!-- Contenedor de estadísticas -->
-        <div class="report-container">
-            <div class="report-options-box">
-                <div class="profile-field">
-                    <label>Tiempo de uso total:</label>
-                    <input type="text" value="45 horas" readonly>
-                </div>
-                <div class="profile-field">
-                    <label>Sesiones activas:</label>
-                    <input type="text" value="128 sesiones" readonly>
-                </div>
-                <div class="profile-field">
-                    <label>Descansos visuales:</label>
-                    <input type="text" value="89 descansos" readonly>
-                </div>
-                <div class="profile-field">
-                    <label>Calibraciones realizadas:</label>
-                    <input type="text" value="12 calibraciones" readonly>
-                </div>
-                <div class="profile-field">
-                    <label>Última actividad:</label>
-                    <input type="text" value="Hace 2 horas" readonly>
+        <section class="stats-panel">
+            <div class="stats-chart">
+                <h2 class="chart-title">Apps más usadas</h2>
+                <div class="chart-bars">
+                    <div class="chart-bar" style="--value: 80;" data-label="TikTok" data-value="80"></div>
+                    <div class="chart-bar" style="--value: 65;" data-label="Facebook" data-value="65"></div>
+                    <div class="chart-bar" style="--value: 55;" data-label="YouTube" data-value="55"></div>
+                    <div class="chart-bar" style="--value: 40;" data-label="El Comercio" data-value="40"></div>
+                    <div class="chart-bar" style="--value: 35;" data-label="Instagram" data-value="35"></div>
                 </div>
             </div>
 
-            <div class="buttons-container">
-                <a href="quick-settings.html" class="action-button">
-                    Volver a Ajustes Rápidos
-                </a>
+            <div class="stats-chart">
+                <h2 class="chart-title">Promedio de clics diarios</h2>
+                <div class="chart-bars">
+                    <div class="chart-bar" style="--value: 70;" data-label="Lun" data-value="70"></div>
+                    <div class="chart-bar" style="--value: 60;" data-label="Mar" data-value="60"></div>
+                    <div class="chart-bar" style="--value: 85;" data-label="Mié" data-value="85"></div>
+                    <div class="chart-bar" style="--value: 50;" data-label="Jue" data-value="50"></div>
+                    <div class="chart-bar" style="--value: 90;" data-label="Vie" data-value="90"></div>
+                </div>
             </div>
-        </div>
+
+            <div class="stats-actions">
+                <a href="quick-settings.html" class="action-button">Exportar como PDF</a>
+            </div>
+        </section>
     </main>
 
     <!-- Footer con degradado y navegación -->

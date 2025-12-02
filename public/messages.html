@@ -42,19 +42,114 @@
         <!-- Título -->
         <h1 class="page-title">Mensajes</h1>
 
-        <!-- Contenedor de mensajes -->
-        <div class="report-container">
-            <div class="report-options-box">
-                <div class="profile-field">
-                    <label>No hay mensajes nuevos</label>
-                    <input type="text" value="Tu bandeja de entrada está vacía" readonly style="text-align: center; opacity: 0.7;">
+        <!-- Menú principal de opciones de mensajería -->
+        <section class="messages-section" id="messages-main-menu">
+            <div class="buttons-container">
+                <button type="button" class="action-button messages-menu-btn" data-target="contacts">
+                    Lista de contactos
+                </button>
+                <button type="button" class="action-button messages-menu-btn" data-target="caregiver">
+                    Cuidador vinculado
+                </button>
+                <button type="button" class="action-button messages-menu-btn" data-target="config">
+                    Configurar mensajes
+                </button>
+            </div>
+        </section>
+
+        <!-- Vista: Lista de contactos -->
+        <section class="messages-section" id="messages-contacts" style="display:none;">
+            <h2 class="section-subtitle">Lista de contactos</h2>
+            <p class="section-description">Usa los mismos contactos que en Seguridad.</p>
+            <div class="contacts-actions">
+                <button type="button" class="action-button" id="messagesAddContactBtn">
+                    Agregar contacto
+                </button>
+                <button type="button" class="cancel-button" id="messagesDeleteContactBtn">
+                    Eliminar contacto
+                </button>
+            </div>
+            <div class="contacts-list" id="messagesContactsList">
+                <!-- Contactos cargados desde emergencyContacts -->
+            </div>
+        </section>
+
+        <!-- Vista: Mensajes predeterminados -->
+        <section class="messages-section" id="messages-presets" style="display:none;">
+            <h2 class="section-subtitle" id="messages-presets-title">Mensajes predeterminados</h2>
+            <p class="section-description" id="messages-presets-subtitle"></p>
+            <div class="preset-messages-list" id="presetMessagesList">
+                <!-- Mensajes predeterminados -->
+            </div>
+        </section>
+
+        <!-- Vista: Configurar mensajes -->
+        <section class="messages-section" id="messages-config" style="display:none;">
+            <h2 class="section-subtitle">Configurar mensajes</h2>
+            <p class="section-description">Edita, agrega o elimina tus mensajes predeterminados (máximo 8).</p>
+            <div class="messages-config-header">
+                <button type="button" class="action-button messages-add-btn" id="addPresetMessageBtn">
+                    +
+                </button>
+            </div>
+            <div class="preset-messages-list" id="configMessagesList">
+                <!-- Mensajes configurables -->
+            </div>
+            <div class="status-toast" id="configLimitToast" style="display:none;">
+                Máximo de 8 mensajes alcanzado.
+            </div>
+        </section>
+
+        <!-- Panel para agregar / editar mensaje predeterminado -->
+        <div class="contact-modal-overlay" id="presetMessageModal" style="display:none;">
+            <div class="contact-modal">
+                <h2 class="contact-modal-title">Mensaje predeterminado</h2>
+                <div class="contact-form">
+                    <textarea id="presetMessageInput" class="contact-input" rows="3" placeholder="Escribe el mensaje"></textarea>
+                    <div class="contact-form-actions">
+                        <button type="button" class="action-button icon-only" id="savePresetMessageBtn" title="Aceptar">
+                            ✔
+                        </button>
+                        <button type="button" class="cancel-button" id="cancelPresetMessageBtn">
+                            Cancelar
+                        </button>
+                    </div>
                 </div>
             </div>
+        </div>
 
-            <div class="buttons-container">
-                <a  class="action-button">
-                    Nuevo Mensaje
-                </a>
+        <!-- Panel para agregar contacto en mensajería -->
+        <div class="contact-modal-overlay" id="messagesAddContactModal" style="display:none;">
+            <div class="contact-modal">
+                <h2 class="contact-modal-title">Agregar Contacto</h2>
+                <form class="contact-form" id="messagesAddContactForm">
+                    <input type="text" class="contact-input" id="messagesContactName" placeholder="Nombre" required>
+                    <input type="text" class="contact-input" id="messagesContactLastName" placeholder="Apellido" required>
+                    <input type="tel" class="contact-input" id="messagesContactNumber" placeholder="Número" required>
+                    <div class="contact-form-actions">
+                        <button type="submit" class="action-button">Agregar</button>
+                        <button type="button" class="cancel-button" id="messagesCancelAddContactBtn">Cancelar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Panel de confirmación para eliminar contacto en mensajería -->
+        <div class="contact-modal-overlay" id="messagesDeleteContactModal" style="display:none;">
+            <div class="contact-modal">
+                <h2 class="contact-modal-title">¿Deseas eliminar a <span id="messagesDeleteContactName"></span>?</h2>
+                <div class="contact-form-actions">
+                    <button type="button" class="action-button" id="messagesConfirmDeleteContactBtn">Confirmar</button>
+                    <button type="button" class="cancel-button" id="messagesCancelDeleteContactBtn">Cancelar</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pantalla completa de confirmación de mensaje enviado -->
+        <div class="contact-modal-overlay" id="messageSentOverlay" style="display:none;">
+            <div class="contact-modal" style="text-align: center;">
+                <div style="font-size: 64px; margin-bottom: 16px;">✔</div>
+                <p class="section-description">Mensaje enviado</p>
             </div>
         </div>
     </main>
@@ -76,6 +171,6 @@
             </a>
         </nav>
     </footer>
+    <script src="assets/scripts/script.js"></script>
 </body>
 </html>
-

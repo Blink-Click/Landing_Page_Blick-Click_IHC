@@ -50,10 +50,31 @@
 
         <!-- Contenedor de historial -->
         <div class="history-detail-container">
-            <!-- Imagen del gráfico -->
-            <div class="history-chart-image" id="historyChart">
-                <img src="assets/images/gui.jpeg" alt="Gráfico Semanal" class="history-chart-img" id="historyImage">
-            </div>
+            <!-- Gráfico similar a estadísticas -->
+            <section class="stats-panel" id="historyStatsWeekly">
+                <div class="stats-chart">
+                    <h2 class="chart-title">Uso semanal (horas)</h2>
+                    <div class="chart-bars">
+                        <div class="chart-bar" style="--value: 40;" data-label="Lun" data-value="4h"></div>
+                        <div class="chart-bar" style="--value: 55;" data-label="Mar" data-value="5.5h"></div>
+                        <div class="chart-bar" style="--value: 60;" data-label="Mié" data-value="6h"></div>
+                        <div class="chart-bar" style="--value: 45;" data-label="Jue" data-value="4.5h"></div>
+                        <div class="chart-bar" style="--value: 70;" data-label="Vie" data-value="7h"></div>
+                        <div class="chart-bar" style="--value: 30;" data-label="Sáb" data-value="3h"></div>
+                        <div class="chart-bar" style="--value: 35;" data-label="Dom" data-value="3.5h"></div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="stats-panel" id="historyStatsDaily" style="display:none;">
+                <div class="stats-chart">
+                    <h2 class="chart-title">Uso diario</h2>
+                    <div class="chart-bars">
+                        <div class="chart-bar" style="--value: 80;" data-label="Veces" data-value="12 veces"></div>
+                        <div class="chart-bar" style="--value: 60;" data-label="Horas" data-value="5 h"></div>
+                    </div>
+                </div>
+            </section>
 
             <!-- Botón Exportar -->
             <button class="export-button" onclick="exportToPDF()">Exportar a PDF</button>
@@ -82,18 +103,19 @@
         function showPeriod(period) {
             const weeklyBtn = document.getElementById('weeklyBtn');
             const dailyBtn = document.getElementById('dailyBtn');
-            const historyImage = document.getElementById('historyImage');
-            
+            const weeklyStats = document.getElementById('historyStatsWeekly');
+            const dailyStats = document.getElementById('historyStatsDaily');
+
             if (period === 'weekly') {
                 weeklyBtn.classList.add('active');
                 dailyBtn.classList.remove('active');
-                historyImage.src = 'assets/images/gui.jpeg';
-                historyImage.alt = 'Gráfico Semanal';
+                if (weeklyStats) weeklyStats.style.display = 'block';
+                if (dailyStats) dailyStats.style.display = 'none';
             } else {
                 dailyBtn.classList.add('active');
                 weeklyBtn.classList.remove('active');
-                historyImage.src = 'assets/images/fondogeneral.png';
-                historyImage.alt = 'Gráfico Diario';
+                if (weeklyStats) weeklyStats.style.display = 'none';
+                if (dailyStats) dailyStats.style.display = 'block';
             }
         }
 

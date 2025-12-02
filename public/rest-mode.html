@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blink Click - Contraste</title>
+    <title>Blink Click - Modo Reposo</title>
     <link rel="stylesheet" href="assets/styles/styles.css">
 </head>
 <body>
@@ -33,36 +33,33 @@
     <!-- Contenido principal -->
     <main class="main-content">
         <!-- Flecha hacia atrás -->
-        <a href="home.html" class="back-arrow" title="Volver">
+        <a href="quick-settings.html" class="back-arrow" title="Volver">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M19 12H5M12 19l-7-7 7-7"/>
             </svg>
         </a>
 
         <!-- Título -->
-        <h1 class="page-title">Contraste</h1>
+        <h1 class="page-title">Modo Reposo</h1>
+        <p class="page-description">Activa o desactiva el modo reposo de la aplicación.</p>
 
-        <!-- Descripción -->
-        <p class="page-description">Ajusta el contraste de la interfaz para una mejor visualización</p>
+        <section class="messages-section">
+            <div class="buttons-container">
+                <button type="button" class="action-button" id="restModeOnBtn">
+                    Activar
+                </button>
+                <button type="button" class="cancel-button" id="restModeOffBtn">
+                    Desactivar
+                </button>
+            </div>
+        </section>
 
-        <!-- Opciones de contraste -->
-        <div class="buttons-container">
-            <a href="#" class="action-button">
-                Contraste Normal
-            </a>
-            <a href="#" class="action-button">
-                Contraste Alto
-            </a>
-            <a href="#" class="action-button">
-                Contraste Bajo
-            </a>
-        </div>
-
-        <div class="theme-toggle-card">
-            <p>Cambia entre modo oscuro y claro con un solo toque.</p>
-            <button type="button" class="action-button" id="toggle-theme">
-                Cargando...
-            </button>
+        <!-- Pantalla completa de confirmación de modo reposo -->
+        <div class="contact-modal-overlay" id="restModeOverlay" style="display:none;">
+            <div class="contact-modal" style="text-align: center;">
+                <div style="font-size: 64px; margin-bottom: 16px; color: #00ff7f;">✔</div>
+                <p class="section-description" id="restModeMessageText"></p>
+            </div>
         </div>
     </main>
 
@@ -75,15 +72,17 @@
             <a href="messages.html" class="nav-icon" title="Mensajes">
                 <img src="assets/images/mensaje.png" alt="Mensajes" class="nav-icon-img">
             </a>
-            <a href="recordatorios.html" class="nav-icon" title="Recordatorios">
-                <img src="assets/images/agregarNota.png" alt="Recordatorios" class="nav-icon-img">
+            <a href="add.html" class="nav-icon" title="Agregar">
+                <img src="assets/images/agregarNota.png" alt="Agregar" class="nav-icon-img">
             </a>
             <a href="settings.html" class="nav-icon" title="Configuración">
                 <img src="assets/images/config.png" alt="Configuración" class="nav-icon-img">
             </a>
         </nav>
     </footer>
+
     <script src="assets/scripts/script.js"></script>
 </body>
 </html>
+
 

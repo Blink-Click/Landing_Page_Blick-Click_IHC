@@ -46,29 +46,29 @@
         <div class="report-container">
             <div class="report-options-box">
                 <div class="report-option">
-                    <input type="checkbox" id="error1" name="problema" value="errores-tecnicos">
+                    <input type="radio" id="error1" name="problema" value="errores-tecnicos">
                     <label for="error1">Errores o fallos técnicos</label>
                 </div>
                 <div class="report-option">
-                    <input type="checkbox" id="error2" name="problema" value="conexion">
+                    <input type="radio" id="error2" name="problema" value="conexion">
                     <label for="error2">Problemas de conexión</label>
                 </div>
                 <div class="report-option">
-                    <input type="checkbox" id="error3" name="problema" value="interfaz">
+                    <input type="radio" id="error3" name="problema" value="interfaz">
                     <label for="error3">Interfaz confusa o poco intuitiva</label>
                 </div>
                 <div class="report-option">
-                    <input type="checkbox" id="error4" name="problema" value="lentitud">
+                    <input type="radio" id="error4" name="problema" value="lentitud">
                     <label for="error4">Lentitud en el rendimiento/información.</label>
                 </div>
                 <div class="report-option">
-                    <input type="checkbox" id="error5" name="problema" value="compatibilidad">
+                    <input type="radio" id="error5" name="problema" value="compatibilidad">
                     <label for="error5">Problemas de compatibilidad</label>
                 </div>
                 <div class="report-option report-option-otros">
-                    <input type="checkbox" id="error6" name="problema" value="otros">
-                    <label for="error6">otros:</label>
-                    <input type="text" id="otros-texto" name="otros-texto" class="otros-input" placeholder="Describe el problema...">
+                    <input type="radio" id="error6" name="problema" value="otros">
+                    <label for="error6">Otros:</label>
+                    <input type="text" id="otros-texto" name="otros-texto" class="otros-input" placeholder="Describe el problema..." disabled>
                 </div>
             </div>
 
@@ -96,32 +96,6 @@
         </nav>
     </footer>
 
-    <script>
-        document.getElementById('enviar-reporte').addEventListener('click', function() {
-            // Verificar si hay algún checkbox marcado
-            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-            const otrosInput = document.getElementById('otros-texto');
-            let hasSelection = false;
-
-            checkboxes.forEach(function(checkbox) {
-                if (checkbox.checked) {
-                    hasSelection = true;
-                }
-            });
-
-            // Verificar si el campo "otros" tiene texto
-            if (otrosInput.value.trim() !== '') {
-                hasSelection = true;
-            }
-
-            // Si hay alguna selección o texto, redirigir a la pantalla de éxito
-            if (hasSelection) {
-                window.location.href = 'report-success.html';
-            } else {
-                alert('Por favor, selecciona al menos una opción o describe el problema.');
-            }
-        });
-    </script>
     <script src="assets/scripts/script.js"></script>
 </body>
 </html>
