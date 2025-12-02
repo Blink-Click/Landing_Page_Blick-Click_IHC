@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blink Click - Vincular con Cuidador</title>
+    <link rel="stylesheet" href="assets/styles/styles.css">
+</head>
+<body>
+    <!-- Header con degradado -->
+    <header class="top-banner">
+        <div class="header-content">
+            <!-- Logo a la izquierda -->
+            <div class="logo">
+                <img src="assets/images/logo.png" alt="BLINK CLICK" class="logo-img">
+            </div>
+            
+            <!-- Iconos a la derecha -->
+            <div class="header-icons">
+                <a href="contrast.html" class="icon-link" title="Cambiar contraste">
+                    <img src="assets/images/contraste.png" alt="Cambiar contraste" class="icon-img">
+                </a>
+                <a href="notifications.html" class="icon-link" title="Notificaciones">
+                    <img src="assets/images/notificacion.png" alt="Notificaciones" class="icon-img">
+                </a>
+                <a href="profile.html" class="profile-link" title="Perfil">
+                    <img src="assets/images/usuario.jpg" alt="Usuario" class="profile-image">
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Contenido principal -->
+    <main class="main-content">
+        <!-- Flecha hacia atrás -->
+        <a href="settings.html" class="back-arrow" title="Volver">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M19 12H5M12 19l-7-7 7-7"/>
+            </svg>
+        </a>
+
+        <!-- Título -->
+        <h1 class="page-title">Vinculación</h1>
+
+        <!-- Contenedor de vinculación -->
+        <div class="link-container">
+            <p class="link-instruction">Conéctate con tu cuidador mediante un QR</p>
+            
+            <!-- QR Code -->
+            <div class="qr-container">
+                <svg class="qr-code" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Patrón de QR Code simplificado -->
+                    <rect width="200" height="200" fill="#fff"/>
+                    <!-- Esquinas del QR -->
+                    <rect x="10" y="10" width="50" height="50" fill="#000"/>
+                    <rect x="20" y="20" width="30" height="30" fill="#fff"/>
+                    <rect x="25" y="25" width="20" height="20" fill="#000"/>
+                    
+                    <rect x="140" y="10" width="50" height="50" fill="#000"/>
+                    <rect x="150" y="20" width="30" height="30" fill="#fff"/>
+                    <rect x="155" y="25" width="20" height="20" fill="#000"/>
+                    
+                    <rect x="10" y="140" width="50" height="50" fill="#000"/>
+                    <rect x="20" y="150" width="30" height="30" fill="#fff"/>
+                    <rect x="25" y="155" width="20" height="20" fill="#000"/>
+                    
+                    <!-- Patrón interno -->
+                    <rect x="80" y="80" width="40" height="40" fill="#000"/>
+                    <rect x="90" y="90" width="20" height="20" fill="#fff"/>
+                    <rect x="95" y="95" width="10" height="10" fill="#000"/>
+                    
+                    <!-- Puntos adicionales -->
+                    <rect x="30" y="80" width="10" height="10" fill="#000"/>
+                    <rect x="160" y="80" width="10" height="10" fill="#000"/>
+                    <rect x="80" y="30" width="10" height="10" fill="#000"/>
+                    <rect x="80" y="160" width="10" height="10" fill="#000"/>
+                </svg>
+            </div>
+
+            <!-- Botón Vincular -->
+            <button class="link-button" id="linkButton">Vincular</button>
+
+            <!-- Dispositivos vinculados -->
+            <div class="linked-devices-section">
+                <h2 class="linked-devices-title">Dispositivos vinculados</h2>
+                <div class="linked-devices-list" id="devicesList">
+                    <div class="device-item">
+                        <span class="device-name">Ningún dispositivo vinculado</span>
+                        <span class="device-status"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Pop-up de privacidad (oculto por defecto) -->
+    <div class="privacy-overlay" id="privacyOverlay" style="display: none;">
+        <div class="privacy-popup">
+            <h2 class="privacy-popup-title">Privacidad</h2>
+            <p class="privacy-popup-message">Activar la cámara mientras la app esté en uso</p>
+            <div class="privacy-buttons">
+                <button class="privacy-button privacy-button-allow" id="allowCamera">Mantener Activa</button>
+                <button class="privacy-button privacy-button-deny" id="denyCamera">Nunca</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer con degradado y navegación -->
+    <footer class="bottom-banner">
+        <nav class="bottom-nav">
+            <a href="home.html" class="nav-icon" title="Inicio">
+                <img src="assets/images/homeicono.png" alt="Inicio" class="nav-icon-img">
+            </a>
+            <a href="messages.html" class="nav-icon" title="Mensajes">
+                <img src="assets/images/mensaje.png" alt="Mensajes" class="nav-icon-img">
+            </a>
+            <a href="add.html" class="nav-icon" title="Agregar">
+                <img src="assets/images/agregarNota.png" alt="Agregar" class="nav-icon-img">
+            </a>
+            <a href="settings.html" class="nav-icon" title="Configuración">
+                <img src="assets/images/config.png" alt="Configuración" class="nav-icon-img">
+            </a>
+        </nav>
+    </footer>
+
+    <script>
+        // Mostrar pop-up de privacidad al hacer clic en Vincular
+        document.getElementById('linkButton').addEventListener('click', function() {
+            document.getElementById('privacyOverlay').style.display = 'flex';
+        });
+
+        // Manejar permisos de cámara
+        document.getElementById('allowCamera').addEventListener('click', function() {
+            document.getElementById('privacyOverlay').style.display = 'none';
+            // Aquí se activaría la cámara para escanear el QR
+            alert('Cámara activada. Escanea el código QR del cuidador.');
+        });
+
+        document.getElementById('denyCamera').addEventListener('click', function() {
+            document.getElementById('privacyOverlay').style.display = 'none';
+            alert('Permiso de cámara denegado.');
+        });
+    </script>
+</body>
+</html>
+

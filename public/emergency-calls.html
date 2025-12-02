@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blink Click - Llamadas de Emergencia</title>
+    <link rel="stylesheet" href="assets/styles/styles.css">
+</head>
+<body>
+    <!-- Header con degradado -->
+    <header class="top-banner">
+        <div class="header-content">
+            <!-- Logo a la izquierda -->
+            <div class="logo">
+                <img src="assets/images/logo.png" alt="BLINK CLICK" class="logo-img">
+            </div>
+            
+            <!-- Iconos a la derecha -->
+            <div class="header-icons">
+                <a href="contrast.html" class="icon-link" title="Cambiar contraste">
+                    <img src="assets/images/contraste.png" alt="Cambiar contraste" class="icon-img">
+                </a>
+                <a href="notifications.html" class="icon-link" title="Notificaciones">
+                    <img src="assets/images/notificacion.png" alt="Notificaciones" class="icon-img">
+                </a>
+                <a href="profile.html" class="profile-link" title="Perfil">
+                    <img src="assets/images/usuario.jpg" alt="Usuario" class="profile-image">
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Contenido principal -->
+    <main class="main-content">
+        <!-- Flecha hacia atrás -->
+        <a href="security.html" class="back-arrow" title="Volver">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M19 12H5M12 19l-7-7 7-7"/>
+            </svg>
+        </a>
+
+        <!-- Título -->
+        <h1 class="page-title">Llamadas de emergencia</h1>
+
+        <!-- Lista de contactos con iconos de teléfono -->
+        <div class="contacts-list" id="contactsList">
+            <!-- Los contactos se cargarán dinámicamente -->
+        </div>
+    </main>
+
+    <!-- Ventana de llamada -->
+    <div class="call-overlay" id="callOverlay" style="display: none;">
+        <div class="call-container">
+            <!-- Foto y nombre -->
+            <div class="call-header">
+                <div class="call-profile-image-container">
+                    <img src="assets/images/usuario.jpg" alt="Contacto" class="call-profile-image" id="callProfileImage">
+                </div>
+                <h2 class="call-contact-name" id="callContactName">Nombre del Contacto</h2>
+                <p class="call-status">Llamando...</p>
+            </div>
+
+            <!-- Iconos de control -->
+            <div class="call-controls">
+                <div class="call-control-item">
+                    <button class="call-control-button" id="keypadBtn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="3" width="18" height="18" rx="2"/>
+                            <path d="M8 7h8M8 12h8M8 17h8"/>
+                        </svg>
+                    </button>
+                    <span class="call-control-label">Teclado</span>
+                </div>
+
+                <div class="call-control-item">
+                    <button class="call-control-button" id="muteBtn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M11 5L6 9H2v6h4l5 4V5z"/>
+                            <path d="M19 9l-6 6M13 9l6 6"/>
+                        </svg>
+                    </button>
+                    <span class="call-control-label">Silenciar</span>
+                </div>
+
+                <div class="call-control-item">
+                    <button class="call-control-button" id="speakerBtn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+                            <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+                            <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
+                        </svg>
+                    </button>
+                    <span class="call-control-label">Bocina</span>
+                </div>
+            </div>
+
+            <!-- Botón colgar -->
+            <button class="call-hangup-button" onclick="hangUp()">Colgar</button>
+        </div>
+    </div>
+
+    <!-- Footer con degradado y navegación -->
+    <footer class="bottom-banner">
+        <nav class="bottom-nav">
+            <a href="home.html" class="nav-icon" title="Inicio">
+                <img src="assets/images/homeicono.png" alt="Inicio" class="nav-icon-img">
+            </a>
+            <a href="messages.html" class="nav-icon" title="Mensajes">
+                <img src="assets/images/mensaje.png" alt="Mensajes" class="nav-icon-img">
+            </a>
+            <a href="add.html" class="nav-icon" title="Agregar">
+                <img src="assets/images/agregarNota.png" alt="Agregar" class="nav-icon-img">
+            </a>
+            <a href="settings.html" class="nav-icon" title="Configuración">
+                <img src="assets/images/config.png" alt="Configuración" class="nav-icon-img">
+            </a>
+        </nav>
+    </footer>
+
+    <script>
+        let contacts = [];
+        let currentCallContact = null;
+
+        // Cargar contactos
+        function loadContacts() {
+            const saved = localStorage.getItem('emergencyContacts');
+            if (saved) {
+                contacts = JSON.parse(saved);
+            } else {
+                // Contactos por defecto
+                contacts = [
+                    { id: 1, name: 'Papá', lastName: '', number: '' },
+                    { id: 2, name: 'Mamá', lastName: '', number: '' }
+                ];
+            }
+            renderContacts();
+        }
+
+        function renderContacts() {
+            const list = document.getElementById('contactsList');
+            list.innerHTML = '';
+            
+            contacts.forEach(contact => {
+                const contactItem = document.createElement('div');
+                contactItem.className = 'contact-item';
+                
+                const fullName = contact.name + (contact.lastName ? ' ' + contact.lastName : '');
+                
+                contactItem.innerHTML = `
+                    <button class="contact-phone-btn" onclick="startCall(${contact.id})">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                        </svg>
+                    </button>
+                    <div class="contact-info">
+                        <h3 class="contact-name">${fullName}</h3>
+                        ${contact.number ? `<p class="contact-number">${contact.number}</p>` : ''}
+                    </div>
+                `;
+                
+                list.appendChild(contactItem);
+            });
+        }
+
+        function startCall(contactId) {
+            const contact = contacts.find(c => c.id === contactId);
+            if (contact) {
+                currentCallContact = contact;
+                const fullName = contact.name + (contact.lastName ? ' ' + contact.lastName : '');
+                document.getElementById('callContactName').textContent = fullName;
+                document.getElementById('callOverlay').style.display = 'flex';
+            }
+        }
+
+        function hangUp() {
+            document.getElementById('callOverlay').style.display = 'none';
+            currentCallContact = null;
+        }
+
+        // Funcionalidad de los controles
+        document.getElementById('keypadBtn').addEventListener('click', function() {
+            alert('Teclado');
+        });
+
+        document.getElementById('muteBtn').addEventListener('click', function() {
+            this.classList.toggle('active');
+        });
+
+        document.getElementById('speakerBtn').addEventListener('click', function() {
+            this.classList.toggle('active');
+        });
+
+        // Cargar contactos al iniciar
+        window.onload = function() {
+            loadContacts();
+        };
+    </script>
+</body>
+</html>
+

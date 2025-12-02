@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blink Click - Tamaño de Texto</title>
+    <link rel="stylesheet" href="assets/styles/styles.css">
+</head>
+<body>
+    <!-- Header con degradado -->
+    <header class="top-banner">
+        <div class="header-content">
+            <!-- Logo a la izquierda -->
+            <div class="logo">
+                <img src="assets/images/logo.png" alt="BLINK CLICK" class="logo-img">
+            </div>
+            
+            <!-- Iconos a la derecha -->
+            <div class="header-icons">
+                <a href="contrast.html" class="icon-link" title="Cambiar contraste">
+                    <img src="assets/images/contraste.png" alt="Cambiar contraste" class="icon-img">
+                </a>
+                <a href="notifications.html" class="icon-link" title="Notificaciones">
+                    <img src="assets/images/notificacion.png" alt="Notificaciones" class="icon-img">
+                </a>
+                <a href="profile.html" class="profile-link" title="Perfil">
+                    <img src="assets/images/usuario.jpg" alt="Usuario" class="profile-image">
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Contenido principal -->
+    <main class="main-content">
+        <!-- Flecha hacia atrás -->
+        <a href="element-size.html" class="back-arrow" title="Volver">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M19 12H5M12 19l-7-7 7-7"/>
+            </svg>
+        </a>
+
+        <!-- Título -->
+        <h1 class="page-title">Tamaño de Texto</h1>
+
+        <!-- Contenedor de ajuste -->
+        <div class="text-size-container">
+            <!-- Ejemplo de texto -->
+            <div class="text-example-container">
+                <h2 class="text-example-title" id="exampleTitle">Título de Ejemplo</h2>
+                <p class="text-example-text" id="exampleText">Este es un ejemplo de texto que cambiará de tamaño según ajustes la barra. Puedes ver cómo se ve el texto en diferentes tamaños.</p>
+            </div>
+
+            <!-- Barra de ajuste con puntos -->
+            <div class="text-size-bar-container">
+                <span class="text-size-label-small">A</span>
+                <div class="text-size-bar-wrapper">
+                    <div class="text-size-bar" id="textSizeBar">
+                        <div class="text-size-dots">
+                            <div class="text-size-dot" data-level="1"></div>
+                            <div class="text-size-dot" data-level="2"></div>
+                            <div class="text-size-dot" data-level="3"></div>
+                            <div class="text-size-dot" data-level="4"></div>
+                            <div class="text-size-dot" data-level="5"></div>
+                            <div class="text-size-dot" data-level="6"></div>
+                        </div>
+                        <div class="text-size-indicator" id="textSizeIndicator" style="left: 0%;"></div>
+                    </div>
+                </div>
+                <span class="text-size-label-large">A</span>
+            </div>
+
+            <!-- Botones de acción (ocultos inicialmente) -->
+            <div class="adjustment-actions" id="actionButtons" style="display: none;">
+                <button class="action-button" onclick="saveTextSize()">Guardar cambios</button>
+                <button class="cancel-button" onclick="cancelTextSize()">Cancelar cambio</button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer con degradado y navegación -->
+    <footer class="bottom-banner">
+        <nav class="bottom-nav">
+            <a href="home.html" class="nav-icon" title="Inicio">
+                <img src="assets/images/homeicono.png" alt="Inicio" class="nav-icon-img">
+            </a>
+            <a href="messages.html" class="nav-icon" title="Mensajes">
+                <img src="assets/images/mensaje.png" alt="Mensajes" class="nav-icon-img">
+            </a>
+            <a href="add.html" class="nav-icon" title="Agregar">
+                <img src="assets/images/agregarNota.png" alt="Agregar" class="nav-icon-img">
+            </a>
+            <a href="settings.html" class="nav-icon" title="Configuración">
+                <img src="assets/images/config.png" alt="Configuración" class="nav-icon-img">
+            </a>
+        </nav>
+    </footer>
+
+    <script>
+        let currentLevel = 1; // Nivel inicial (1-6)
+        let originalLevel = 1;
+        let textSizeBar;
+        let textSizeIndicator;
+
+        const fontSizeLevels = {
+            1: { title: '1.2rem', text: '1rem' },
+            2: { title: '1.4rem', text: '1.1rem' },
+            3: { title: '1.6rem', text: '1.2rem' },
+            4: { title: '1.8rem', text: '1.3rem' },
+            5: { title: '2rem', text: '1.4rem' },
+            6: { title: '2.2rem', text: '1.5rem' }
+        };
+
+        function updateTextSize() {
+            const level = fontSizeLevels[currentLevel];
+            document.getElementById('exampleTitle').style.fontSize = level.title;
+            document.getElementById('exampleText').style.fontSize = level.text;
+            
+            // Mover indicador
+            const position = ((currentLevel - 1) / 5) * 100;
+            textSizeIndicator.style.left = position + '%';
+            
+            // Mostrar botones si hay cambios
+            if (currentLevel !== originalLevel) {
+                document.getElementById('actionButtons').style.display = 'flex';
+            } else {
+                document.getElementById('actionButtons').style.display = 'none';
+            }
+        }
+
+        function saveTextSize() {
+            originalLevel = currentLevel;
+            localStorage.setItem('textSizeLevel', currentLevel);
+            window.location.href = 'success-save.html?return=element-size.html';
+        }
+
+        function cancelTextSize() {
+            currentLevel = originalLevel;
+            updateTextSize();
+            window.location.href = 'element-size.html';
+        }
+
+        window.onload = function() {
+            textSizeBar = document.getElementById('textSizeBar');
+            textSizeIndicator = document.getElementById('textSizeIndicator');
+            
+            // Cargar nivel guardado
+            const savedLevel = localStorage.getItem('textSizeLevel');
+            if (savedLevel) {
+                currentLevel = parseInt(savedLevel);
+                originalLevel = currentLevel;
+            }
+            updateTextSize();
+
+            // Permitir clic en los puntos
+            const dots = document.querySelectorAll('.text-size-dot');
+            dots.forEach((dot, index) => {
+                dot.addEventListener('click', function() {
+                    currentLevel = index + 1;
+                    updateTextSize();
+                });
+            });
+
+            // Permitir clic en la barra
+            textSizeBar.addEventListener('click', function(e) {
+                const rect = textSizeBar.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const percentage = Math.max(0, Math.min(100, (x / rect.width) * 100));
+                const level = Math.round((percentage / 100) * 5) + 1;
+                currentLevel = Math.max(1, Math.min(6, level));
+                updateTextSize();
+            });
+        };
+    </script>
+</body>
+</html>
+

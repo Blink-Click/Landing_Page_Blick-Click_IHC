@@ -29,7 +29,7 @@
         </div>
         <ul class="nav-links">
           <li class="nav-item-dropdown">
-            <a href="index.html" class="nav-link-dropdown">Inicio</a>
+            <a  class="nav-link-dropdown">Inicio</a>
             <ul class="dropdown-menu">
               <li><a href="index.html#testimonios">Testimonios</a></li>
               <li><a href="index.html#mision">Misión</a></li>
@@ -144,13 +144,19 @@
         .addEventListener("submit", function (e) {
           e.preventDefault();
           const usuario = document.getElementById("usuario").value;
+          const password = document.getElementById("password").value;
 
-          // Guardar usuario
-          localStorage.setItem("usuario", usuario);
-          localStorage.setItem("logueado", "true");
+          // Validar credenciales
+          if (usuario === "Pedro" && password === "Pedro123") {
+            // Guardar usuario
+            localStorage.setItem("usuario", usuario);
+            localStorage.setItem("logueado", "true");
 
-          // Redirigir
-          window.location.href = "index.html";
+            // Redirigir a home.html
+            window.location.href = "home.html";
+          } else {
+            alert("Usuario o contraseña incorrectos. Use: Usuario: Pedro, Contraseña: Pedro123");
+          }
         });
     </script>
 

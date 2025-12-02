@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blink Click - Lista de Contactos</title>
+    <link rel="stylesheet" href="assets/styles/styles.css">
+</head>
+<body>
+    <!-- Header con degradado -->
+    <header class="top-banner">
+        <div class="header-content">
+            <!-- Logo a la izquierda -->
+            <div class="logo">
+                <img src="assets/images/logo.png" alt="BLINK CLICK" class="logo-img">
+            </div>
+            
+            <!-- Iconos a la derecha -->
+            <div class="header-icons">
+                <a href="contrast.html" class="icon-link" title="Cambiar contraste">
+                    <img src="assets/images/contraste.png" alt="Cambiar contraste" class="icon-img">
+                </a>
+                <a href="notifications.html" class="icon-link" title="Notificaciones">
+                    <img src="assets/images/notificacion.png" alt="Notificaciones" class="icon-img">
+                </a>
+                <a href="profile.html" class="profile-link" title="Perfil">
+                    <img src="assets/images/usuario.jpg" alt="Usuario" class="profile-image">
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Contenido principal -->
+    <main class="main-content">
+        <!-- Flecha hacia atrás -->
+        <a href="security.html" class="back-arrow" title="Volver">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M19 12H5M12 19l-7-7 7-7"/>
+            </svg>
+        </a>
+
+        <!-- Título -->
+        <h1 class="page-title">Lista de contactos</h1>
+
+        <!-- Botones de acción -->
+        <div class="contacts-actions">
+            <button class="action-button" onclick="showAddContact()">Agregar</button>
+            <button class="cancel-button" onclick="showDeleteMode()">Eliminar</button>
+        </div>
+
+        <!-- Lista de contactos -->
+        <div class="contacts-list" id="contactsList">
+            <!-- Los contactos se cargarán dinámicamente -->
+        </div>
+    </main>
+
+    <!-- Modal para agregar contacto -->
+    <div class="contact-modal-overlay" id="addContactModal" style="display: none;">
+        <div class="contact-modal">
+            <h2 class="contact-modal-title">Agregar Contacto</h2>
+            <form class="contact-form" id="addContactForm" onsubmit="handleAddContact(event)">
+                <input type="text" class="contact-input" id="contactName" placeholder="Nombre" required>
+                <input type="text" class="contact-input" id="contactLastName" placeholder="Apellido" required>
+                <input type="tel" class="contact-input" id="contactNumber" placeholder="Número" required>
+                <div class="contact-form-actions">
+                    <button type="submit" class="action-button">Agregar</button>
+                    <button type="button" class="cancel-button" onclick="closeAddContact()">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal de confirmación para eliminar -->
+    <div class="contact-modal-overlay" id="deleteConfirmModal" style="display: none;">
+        <div class="contact-modal">
+            <h2 class="contact-modal-title" id="deleteConfirmTitle">¿Deseas eliminar a <span id="deleteContactName"></span>?</h2>
+            <div class="contact-form-actions">
+                <button class="action-button" onclick="confirmDelete()">Confirmar</button>
+                <button class="cancel-button" onclick="cancelDelete()">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer con degradado y navegación -->
+    <footer class="bottom-banner">
+        <nav class="bottom-nav">
+            <a href="home.html" class="nav-icon" title="Inicio">
+                <img src="assets/images/homeicono.png" alt="Inicio" class="nav-icon-img">
+            </a>
+            <a href="messages.html" class="nav-icon" title="Mensajes">
+                <img src="assets/images/mensaje.png" alt="Mensajes" class="nav-icon-img">
+            </a>
+            <a href="add.html" class="nav-icon" title="Agregar">
+                <img src="assets/images/agregarNota.png" alt="Agregar" class="nav-icon-img">
+            </a>
+            <a href="settings.html" class="nav-icon" title="Configuración">
+                <img src="assets/images/config.png" alt="Configuración" class="nav-icon-img">
+            </a>
+        </nav>
+    </footer>
+
+    <script>
+        let contacts = [];
+        let deleteMode = false;
+        let contactToDelete = null;
+
+        // Cargar contactos guardados o usar los por defecto
+        function loadContacts() {
+            const saved = localStorage.getItem('emergencyContacts');
+            if (saved) {
+                contacts = JSON.parse(saved);
+            } else {
+                // Contactos por defecto
+                contacts = [
+                    { id: 1, name: 'Papá', lastName: '', number: '' },
+                    { id: 2, name: 'Mamá', lastName: '', number: '' }
+                ];
+                saveContacts();
+            }
+            renderContacts();
+        }
+
+        function saveContacts() {
+            localStorage.setItem('emergencyContacts', JSON.stringify(contacts));
+        }
+
+        function renderContacts() {
+            const list = document.getElementById('contactsList');
+            list.innerHTML = '';
+            
+            contacts.forEach(contact => {
+                const contactItem = document.createElement('div');
+                contactItem.className = 'contact-item';
+                contactItem.id = 'contact-' + contact.id;
+                
+                if (deleteMode) {
+                    contactItem.innerHTML = `
+                        <button class="contact-delete-btn" onclick="selectContactToDelete(${contact.id})">✕</button>
+                        <div class="contact-info">
+                            <h3 class="contact-name">${contact.name} ${contact.lastName}</h3>
+                            ${contact.number ? `<p class="contact-number">${contact.number}</p>` : ''}
+                        </div>
+                    `;
+                } else {
+                    contactItem.innerHTML = `
+                        <div class="contact-info">
+                            <h3 class="contact-name">${contact.name} ${contact.lastName}</h3>
+                            ${contact.number ? `<p class="contact-number">${contact.number}</p>` : ''}
+                        </div>
+                    `;
+                }
+                
+                list.appendChild(contactItem);
+            });
+        }
+
+        function showAddContact() {
+            if (contacts.length >= 5) {
+                alert('Máximo 5 contactos permitidos');
+                return;
+            }
+            deleteMode = false;
+            renderContacts();
+            document.getElementById('addContactModal').style.display = 'flex';
+        }
+
+        function closeAddContact() {
+            document.getElementById('addContactModal').style.display = 'none';
+            document.getElementById('addContactForm').reset();
+        }
+
+        function handleAddContact(event) {
+            event.preventDefault();
+            const name = document.getElementById('contactName').value;
+            const lastName = document.getElementById('contactLastName').value;
+            const number = document.getElementById('contactNumber').value;
+            
+            const newContact = {
+                id: Date.now(),
+                name: name,
+                lastName: lastName,
+                number: number
+            };
+            
+            contacts.push(newContact);
+            saveContacts();
+            closeAddContact();
+            
+            // Mostrar pantalla de carga y luego regresar
+            window.location.href = 'loading.html?type=addcontact&return=contacts-list.html';
+        }
+
+        function showDeleteMode() {
+            deleteMode = !deleteMode;
+            renderContacts();
+        }
+
+        function selectContactToDelete(contactId) {
+            const contact = contacts.find(c => c.id === contactId);
+            if (contact) {
+                contactToDelete = contactId;
+                document.getElementById('deleteContactName').textContent = contact.name + ' ' + contact.lastName;
+                document.getElementById('deleteConfirmModal').style.display = 'flex';
+            }
+        }
+
+        function confirmDelete() {
+            if (contactToDelete) {
+                contacts = contacts.filter(c => c.id !== contactToDelete);
+                saveContacts();
+                contactToDelete = null;
+                deleteMode = false;
+                document.getElementById('deleteConfirmModal').style.display = 'none';
+                
+                // Mostrar pantalla de carga y luego regresar
+                window.location.href = 'loading.html?type=deletecontact&return=contacts-list.html';
+            }
+        }
+
+        function cancelDelete() {
+            contactToDelete = null;
+            document.getElementById('deleteConfirmModal').style.display = 'none';
+        }
+
+        // Cargar contactos al iniciar
+        window.onload = function() {
+            loadContacts();
+        };
+    </script>
+</body>
+</html>
+

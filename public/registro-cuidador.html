@@ -20,13 +20,13 @@
         <div class="logo">
           <h1>
             <a href="index.html"
-              ><img src="img/blinkclick.png" alt="Blink Click" class="logo-img"
+              ><img src="assets/images/blinkclick.png" alt="Blink Click" class="logo-img"
             /></a>
           </h1>
         </div>
         <ul class="nav-links">
           <li class="nav-item-dropdown">
-            <a href="index.html" class="nav-link-dropdown">Inicio</a>
+            <a  class="nav-link-dropdown">Inicio</a>
             <ul class="dropdown-menu">
               <li><a href="index.html#testimonios">Testimonios</a></li>
               <li><a href="index.html#mision">Misión</a></li>
@@ -198,11 +198,21 @@
         .addEventListener("submit", function (e) {
           e.preventDefault();
           const usuario = document.getElementById("usuario").value;
+          const password = document.getElementById("password").value;
+          const confirmarPassword = document.getElementById("confirmar-password").value;
+          
+          // Validar que las contraseñas coincidan
+          if (password !== confirmarPassword) {
+            alert("Las contraseñas no coinciden");
+            return;
+          }
+          
           // Guardar el nombre de usuario en localStorage
           localStorage.setItem("usuario", usuario);
           localStorage.setItem("logueado", "true");
-          // Redirigir a index.html
-          window.location.href = "index.html";
+          // Redirigir a login después del registro
+          alert("Registro exitoso. Por favor inicia sesión.");
+          window.location.href = "login-cuidador.html";
         });
     </script>
   </body>

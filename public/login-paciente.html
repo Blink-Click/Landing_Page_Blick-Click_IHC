@@ -20,13 +20,13 @@
         <div class="logo">
           <h1>
             <a href="index.html"
-              ><img src="img/blinkclick.png" alt="Blink Click" class="logo-img"
+              ><img src="assets/images/blinkclick.png" alt="Blink Click" class="logo-img"
             /></a>
           </h1>
         </div>
         <ul class="nav-links">
           <li class="nav-item-dropdown">
-            <a href="index.html" class="nav-link-dropdown">Inicio</a>
+            <a  class="nav-link-dropdown">Inicio</a>
             <ul class="dropdown-menu">
               <li><a href="index.html#testimonios">Testimonios</a></li>
               <li><a href="index.html#mision">Misión</a></li>
@@ -141,11 +141,18 @@
         .addEventListener("submit", function (e) {
           e.preventDefault();
           const usuario = document.getElementById("usuario").value;
-          // Guardar el nombre de usuario en localStorage
-          localStorage.setItem("usuario", usuario);
-          localStorage.setItem("logueado", "true");
-          // Redirigir a index.html
-          window.location.href = "index.html";
+          const password = document.getElementById("password").value;
+          
+          // Validar credenciales
+          if (usuario === "Pedro" && password === "Pedro123") {
+            // Guardar el nombre de usuario en localStorage
+            localStorage.setItem("usuario", usuario);
+            localStorage.setItem("logueado", "true");
+            // Redirigir a home.html
+            window.location.href = "home.html";
+          } else {
+            alert("Usuario o contraseña incorrectos. Use: Usuario: Pedro, Contraseña: Pedro123");
+          }
         });
     </script>
 

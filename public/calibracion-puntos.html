@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blink Click - Calibración Visual</title>
+    <link rel="stylesheet" href="assets/styles/styles.css">
+    <style>
+        .calibracion-container {
+            position: relative;
+            width: 100%;
+            height: calc(100vh - 200px);
+            min-height: 500px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .punto-calibracion {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+        
+        .punto-amarillo {
+            background-color: #FFD700;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.6);
+        }
+        
+        .punto-rojo {
+            background-color: #FF4444;
+            box-shadow: 0 0 15px rgba(255, 68, 68, 0.6);
+        }
+        
+        .punto-verde {
+            background-color: #00AA55;
+            box-shadow: 0 0 20px rgba(0, 170, 85, 0.8);
+            transform: scale(1.2);
+        }
+        
+        .instruccion-calibracion {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #fff;
+            font-size: 18px;
+            font-weight: 600;
+            text-align: center;
+            z-index: 5;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 15px 30px;
+            border-radius: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header con degradado -->
+    <header class="top-banner">
+        <div class="header-content">
+            <div class="logo">
+                <img src="assets/images/logo.png" alt="BLINK CLICK" class="logo-img">
+            </div>
+            <div class="header-icons">
+                <a href="contrast.html" class="icon-link" title="Cambiar contraste">
+                    <img src="assets/images/contraste.png" alt="Cambiar contraste" class="icon-img">
+                </a>
+                <a href="notifications.html" class="icon-link" title="Notificaciones">
+                    <img src="assets/images/notificacion.png" alt="Notificaciones" class="icon-img">
+                </a>
+                <a href="profile.html" class="profile-link" title="Perfil">
+                    <img src="assets/images/usuario.jpg" alt="Usuario" class="profile-image">
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Contenido principal -->
+    <main class="main-content">
+        <div class="calibracion-container" id="calibracion-container">
+            <div class="instruccion-calibracion" id="instruccion">
+                Pasa el cursor sobre cada punto para completar la calibración
+            </div>
+            <!-- Los puntos se generarán dinámicamente con JavaScript -->
+        </div>
+    </main>
+
+    <!-- Footer con degradado y navegación -->
+    <footer class="bottom-banner">
+        <nav class="bottom-nav">
+            <a href="home.html" class="nav-icon" title="Inicio">
+                <img src="assets/images/homeicono.png" alt="Inicio" class="nav-icon-img">
+            </a>
+            <a href="messages.html" class="nav-icon" title="Mensajes">
+                <img src="assets/images/mensaje.png" alt="Mensajes" class="nav-icon-img">
+            </a>
+            <a href="add.html" class="nav-icon" title="Agregar">
+                <img src="assets/images/agregarNota.png" alt="Agregar" class="nav-icon-img">
+            </a>
+            <a href="settings.html" class="nav-icon" title="Configuración">
+                <img src="assets/images/config.png" alt="Configuración" class="nav-icon-img">
+            </a>
+        </nav>
+    </footer>
+
+    <script src="assets/scripts/script.js"></script>
+</body>
+</html>
+

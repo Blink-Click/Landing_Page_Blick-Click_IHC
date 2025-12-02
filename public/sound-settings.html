@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blink Click - Sonido</title>
+    <link rel="stylesheet" href="assets/styles/styles.css">
+</head>
+<body>
+    <!-- Header con degradado -->
+    <header class="top-banner">
+        <div class="header-content">
+            <!-- Logo a la izquierda -->
+            <div class="logo">
+                <img src="assets/images/logo.png" alt="BLINK CLICK" class="logo-img">
+            </div>
+            
+            <!-- Iconos a la derecha -->
+            <div class="header-icons">
+                <a href="contrast.html" class="icon-link" title="Cambiar contraste">
+                    <img src="assets/images/contraste.png" alt="Cambiar contraste" class="icon-img">
+                </a>
+                <a href="notifications.html" class="icon-link" title="Notificaciones">
+                    <img src="assets/images/notificacion.png" alt="Notificaciones" class="icon-img">
+                </a>
+                <a href="profile.html" class="profile-link" title="Perfil">
+                    <img src="assets/images/usuario.jpg" alt="Usuario" class="profile-image">
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Contenido principal -->
+    <main class="main-content">
+        <!-- Flecha hacia atrás -->
+        <a href="accessibility.html" class="back-arrow" title="Volver">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M19 12H5M12 19l-7-7 7-7"/>
+            </svg>
+        </a>
+
+        <!-- Título -->
+        <h1 class="page-title">Sonido</h1>
+
+        <!-- Contenedor de ajuste -->
+        <div class="sound-container">
+            <!-- Multimedia -->
+            <div class="sound-option">
+                <span class="sound-label">Multimedia</span>
+                <div class="sound-bar-container">
+                    <button class="adjustment-button" id="multimediaMinus" onclick="adjustSound('multimedia', -10)">-</button>
+                    <div class="adjustment-bar-wrapper">
+                        <div class="adjustment-bar" id="multimediaBar" onclick="adjustSoundBar('multimedia', event)">
+                            <div class="adjustment-indicator" id="multimediaIndicator" style="left: 50%;"></div>
+                        </div>
+                    </div>
+                    <button class="adjustment-button" id="multimediaPlus" onclick="adjustSound('multimedia', 10)">+</button>
+                </div>
+            </div>
+
+            <!-- Tono de llamada -->
+            <div class="sound-option">
+                <span class="sound-label">Tono de llamada</span>
+                <div class="sound-bar-container">
+                    <button class="adjustment-button" id="ringtoneMinus" onclick="adjustSound('ringtone', -10)">-</button>
+                    <div class="adjustment-bar-wrapper">
+                        <div class="adjustment-bar" id="ringtoneBar" onclick="adjustSoundBar('ringtone', event)">
+                            <div class="adjustment-indicator" id="ringtoneIndicator" style="left: 50%;"></div>
+                        </div>
+                    </div>
+                    <button class="adjustment-button" id="ringtonePlus" onclick="adjustSound('ringtone', 10)">+</button>
+                </div>
+            </div>
+
+            <!-- General -->
+            <div class="sound-option">
+                <span class="sound-label">General</span>
+                <div class="sound-bar-container">
+                    <button class="adjustment-button" id="generalMinus" onclick="adjustSound('general', -10)">-</button>
+                    <div class="adjustment-bar-wrapper">
+                        <div class="adjustment-bar" id="generalBar" onclick="adjustSoundBar('general', event)">
+                            <div class="adjustment-indicator" id="generalIndicator" style="left: 50%;"></div>
+                        </div>
+                    </div>
+                    <button class="adjustment-button" id="generalPlus" onclick="adjustSound('general', 10)">+</button>
+                </div>
+            </div>
+
+            <!-- Modo silencio -->
+            <div class="toggle-option">
+                <span class="toggle-label">Modo silencio</span>
+                <div class="toggle-switch" id="silentToggle" onclick="toggleSilent()">
+                    <div class="toggle-slider"></div>
+                </div>
+            </div>
+
+            <!-- Botones de acción (ocultos inicialmente) -->
+            <div class="adjustment-actions" id="actionButtons" style="display: none;">
+                <button class="action-button" onclick="saveSound()">Guardar cambios</button>
+                <button class="cancel-button" onclick="cancelSound()">Cancelar cambio</button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer con degradado y navegación -->
+    <footer class="bottom-banner">
+        <nav class="bottom-nav">
+            <a href="home.html" class="nav-icon" title="Inicio">
+                <img src="assets/images/homeicono.png" alt="Inicio" class="nav-icon-img">
+            </a>
+            <a href="messages.html" class="nav-icon" title="Mensajes">
+                <img src="assets/images/mensaje.png" alt="Mensajes" class="nav-icon-img">
+            </a>
+            <a href="add.html" class="nav-icon" title="Agregar">
+                <img src="assets/images/agregarNota.png" alt="Agregar" class="nav-icon-img">
+            </a>
+            <a href="settings.html" class="nav-icon" title="Configuración">
+                <img src="assets/images/config.png" alt="Configuración" class="nav-icon-img">
+            </a>
+        </nav>
+    </footer>
+
+    <script>
+        let soundValues = {
+            multimedia: 50,
+            ringtone: 50,
+            general: 50
+        };
+        let originalSoundValues = { ...soundValues };
+        let silentMode = false;
+        let originalSilentMode = false;
+
+        function adjustSound(type, change) {
+            if (silentMode) return; // No permitir cambios si está en modo silencio
+            soundValues[type] = Math.max(0, Math.min(100, soundValues[type] + change));
+            updateSoundDisplay(type);
+            checkForChanges();
+        }
+
+        function adjustSoundBar(type, event) {
+            if (silentMode) return;
+            const bar = document.getElementById(type + 'Bar');
+            const rect = bar.getBoundingClientRect();
+            const x = event.clientX - rect.left;
+            const percentage = Math.max(0, Math.min(100, (x / rect.width) * 100));
+            soundValues[type] = Math.round(percentage);
+            updateSoundDisplay(type);
+            checkForChanges();
+        }
+
+        function updateSoundDisplay(type) {
+            const indicator = document.getElementById(type + 'Indicator');
+            indicator.style.left = soundValues[type] + '%';
+        }
+
+        function toggleSilent() {
+            silentMode = !silentMode;
+            const toggle = document.getElementById('silentToggle');
+            const slider = toggle.querySelector('.toggle-slider');
+            
+            if (silentMode) {
+                toggle.classList.add('active');
+                slider.style.transform = 'translateX(30px)';
+                // Poner todos los sonidos a 0
+                soundValues.multimedia = 0;
+                soundValues.ringtone = 0;
+                soundValues.general = 0;
+                updateSoundDisplay('multimedia');
+                updateSoundDisplay('ringtone');
+                updateSoundDisplay('general');
+                // Deshabilitar botones
+                disableSoundControls(true);
+            } else {
+                toggle.classList.remove('active');
+                slider.style.transform = 'translateX(0)';
+                // Restaurar valores originales
+                soundValues = { ...originalSoundValues };
+                updateSoundDisplay('multimedia');
+                updateSoundDisplay('ringtone');
+                updateSoundDisplay('general');
+                // Habilitar botones
+                disableSoundControls(false);
+            }
+            checkForChanges();
+        }
+
+        function disableSoundControls(disable) {
+            const buttons = ['multimediaMinus', 'multimediaPlus', 'ringtoneMinus', 'ringtonePlus', 'generalMinus', 'generalPlus'];
+            buttons.forEach(id => {
+                const btn = document.getElementById(id);
+                if (btn) {
+                    btn.disabled = disable;
+                    btn.style.opacity = disable ? '0.5' : '1';
+                    btn.style.cursor = disable ? 'not-allowed' : 'pointer';
+                }
+            });
+        }
+
+        function checkForChanges() {
+            const soundChanged = JSON.stringify(soundValues) !== JSON.stringify(originalSoundValues);
+            const silentChanged = silentMode !== originalSilentMode;
+            document.getElementById('actionButtons').style.display = (soundChanged || silentChanged) ? 'flex' : 'none';
+        }
+
+        function saveSound() {
+            originalSoundValues = { ...soundValues };
+            originalSilentMode = silentMode;
+            localStorage.setItem('soundSettings', JSON.stringify(soundValues));
+            localStorage.setItem('silentMode', silentMode);
+            window.location.href = 'success-save.html?return=accessibility.html';
+        }
+
+        function cancelSound() {
+            soundValues = { ...originalSoundValues };
+            silentMode = originalSilentMode;
+            updateSoundDisplay('multimedia');
+            updateSoundDisplay('ringtone');
+            updateSoundDisplay('general');
+            const toggle = document.getElementById('silentToggle');
+            const slider = toggle.querySelector('.toggle-slider');
+            if (silentMode) {
+                toggle.classList.add('active');
+                slider.style.transform = 'translateX(30px)';
+            } else {
+                toggle.classList.remove('active');
+                slider.style.transform = 'translateX(0)';
+            }
+            window.location.href = 'accessibility.html';
+        }
+
+        window.onload = function() {
+            // Cargar valores guardados
+            const saved = localStorage.getItem('soundSettings');
+            if (saved) {
+                soundValues = JSON.parse(saved);
+                originalSoundValues = { ...soundValues };
+            }
+            const savedSilent = localStorage.getItem('silentMode');
+            if (savedSilent !== null) {
+                silentMode = savedSilent === 'true';
+                originalSilentMode = silentMode;
+            }
+            
+            updateSoundDisplay('multimedia');
+            updateSoundDisplay('ringtone');
+            updateSoundDisplay('general');
+            
+            const toggle = document.getElementById('silentToggle');
+            const slider = toggle.querySelector('.toggle-slider');
+            if (silentMode) {
+                toggle.classList.add('active');
+                slider.style.transform = 'translateX(30px)';
+                disableSoundControls(true);
+            } else {
+                disableSoundControls(false);
+            }
+        };
+    </script>
+</body>
+</html>
+

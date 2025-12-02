@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blink Click - Reportar Problema</title>
+    <link rel="stylesheet" href="assets/styles/styles.css">
+</head>
+<body>
+    <!-- Header con degradado -->
+    <header class="top-banner">
+        <div class="header-content">
+            <!-- Logo a la izquierda -->
+            <div class="logo">
+                <img src="assets/images/logo.png" alt="BLINK CLICK" class="logo-img">
+            </div>
+            
+            <!-- Iconos a la derecha -->
+            <div class="header-icons">
+                <a href="contrast.html" class="icon-link" title="Cambiar contraste">
+                    <img src="assets/images/contraste.png" alt="Cambiar contraste" class="icon-img">
+                </a>
+                <a href="notifications.html" class="icon-link" title="Notificaciones">
+                    <img src="assets/images/notificacion.png" alt="Notificaciones" class="icon-img">
+                </a>
+                <a href="profile.html" class="profile-link" title="Perfil">
+                    <img src="assets/images/usuario.jpg" alt="Usuario" class="profile-image">
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Contenido principal -->
+    <main class="main-content">
+        <!-- Flecha hacia atrás -->
+        <a href="index-main.html" class="back-arrow" title="Volver">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M19 12H5M12 19l-7-7 7-7"/>
+            </svg>
+        </a>
+
+        <!-- Título -->
+        <h1 class="page-title">Reportar Problema</h1>
+
+        <!-- Formulario de reporte -->
+        <div class="report-container">
+            <div class="report-options-box">
+                <div class="report-option">
+                    <input type="checkbox" id="error1" name="problema" value="errores-tecnicos">
+                    <label for="error1">Errores o fallos técnicos</label>
+                </div>
+                <div class="report-option">
+                    <input type="checkbox" id="error2" name="problema" value="conexion">
+                    <label for="error2">Problemas de conexión</label>
+                </div>
+                <div class="report-option">
+                    <input type="checkbox" id="error3" name="problema" value="interfaz">
+                    <label for="error3">Interfaz confusa o poco intuitiva</label>
+                </div>
+                <div class="report-option">
+                    <input type="checkbox" id="error4" name="problema" value="lentitud">
+                    <label for="error4">Lentitud en el rendimiento/información.</label>
+                </div>
+                <div class="report-option">
+                    <input type="checkbox" id="error5" name="problema" value="compatibilidad">
+                    <label for="error5">Problemas de compatibilidad</label>
+                </div>
+                <div class="report-option report-option-otros">
+                    <input type="checkbox" id="error6" name="problema" value="otros">
+                    <label for="error6">otros:</label>
+                    <input type="text" id="otros-texto" name="otros-texto" class="otros-input" placeholder="Describe el problema...">
+                </div>
+            </div>
+
+            <button type="button" class="action-button" id="enviar-reporte">
+                Enviar Reporte
+            </button>
+        </div>
+    </main>
+
+    <!-- Footer con degradado y navegación -->
+    <footer class="bottom-banner">
+        <nav class="bottom-nav">
+            <a href="home.html" class="nav-icon" title="Inicio">
+                <img src="assets/images/homeicono.png" alt="Inicio" class="nav-icon-img">
+            </a>
+            <a href="messages.html" class="nav-icon" title="Mensajes">
+                <img src="assets/images/mensaje.png" alt="Mensajes" class="nav-icon-img">
+            </a>
+            <a href="add.html" class="nav-icon" title="Agregar">
+                <img src="assets/images/agregarNota.png" alt="Agregar" class="nav-icon-img">
+            </a>
+            <a href="settings.html" class="nav-icon" title="Configuración">
+                <img src="assets/images/config.png" alt="Configuración" class="nav-icon-img">
+            </a>
+        </nav>
+    </footer>
+
+    <script>
+        document.getElementById('enviar-reporte').addEventListener('click', function() {
+            // Verificar si hay algún checkbox marcado
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            const otrosInput = document.getElementById('otros-texto');
+            let hasSelection = false;
+
+            checkboxes.forEach(function(checkbox) {
+                if (checkbox.checked) {
+                    hasSelection = true;
+                }
+            });
+
+            // Verificar si el campo "otros" tiene texto
+            if (otrosInput.value.trim() !== '') {
+                hasSelection = true;
+            }
+
+            // Si hay alguna selección o texto, redirigir a la pantalla de éxito
+            if (hasSelection) {
+                window.location.href = 'report-success.html';
+            } else {
+                alert('Por favor, selecciona al menos una opción o describe el problema.');
+            }
+        });
+    </script>
+    <script src="assets/scripts/script.js"></script>
+</body>
+</html>
+

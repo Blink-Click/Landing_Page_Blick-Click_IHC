@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blink Click - Brillo</title>
+    <link rel="stylesheet" href="assets/styles/styles.css">
+</head>
+<body>
+    <!-- Header con degradado -->
+    <header class="top-banner">
+        <div class="header-content">
+            <!-- Logo a la izquierda -->
+            <div class="logo">
+                <img src="assets/images/logo.png" alt="BLINK CLICK" class="logo-img">
+            </div>
+            
+            <!-- Iconos a la derecha -->
+            <div class="header-icons">
+                <a href="contrast.html" class="icon-link" title="Cambiar contraste">
+                    <img src="assets/images/contraste.png" alt="Cambiar contraste" class="icon-img">
+                </a>
+                <a href="notifications.html" class="icon-link" title="Notificaciones">
+                    <img src="assets/images/notificacion.png" alt="Notificaciones" class="icon-img">
+                </a>
+                <a href="profile.html" class="profile-link" title="Perfil">
+                    <img src="assets/images/usuario.jpg" alt="Usuario" class="profile-image">
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Contenido principal -->
+    <main class="main-content">
+        <!-- Flecha hacia atrás -->
+        <a href="visual-aids.html" class="back-arrow" title="Volver">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M19 12H5M12 19l-7-7 7-7"/>
+            </svg>
+        </a>
+
+        <!-- Título -->
+        <h1 class="page-title">Brillo</h1>
+
+        <!-- Contenedor de ajuste -->
+        <div class="adjustment-container">
+            <!-- Barra de ajuste -->
+            <div class="adjustment-bar-container">
+                <button class="adjustment-button" id="decreaseBtn" onclick="adjustValue(-10)">-</button>
+                <div class="adjustment-bar-wrapper">
+                    <div class="adjustment-bar" id="adjustmentBar">
+                        <div class="adjustment-indicator" id="indicator" style="left: 50%;"></div>
+                    </div>
+                </div>
+                <button class="adjustment-button" id="increaseBtn" onclick="adjustValue(10)">+</button>
+            </div>
+
+            <!-- Botones de acción (ocultos inicialmente) -->
+            <div class="adjustment-actions" id="actionButtons" style="display: none;">
+                <button class="action-button" onclick="saveChanges()">Guardar cambios</button>
+                <button class="cancel-button" onclick="cancelChanges()">Cancelar cambio</button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer con degradado y navegación -->
+    <footer class="bottom-banner">
+        <nav class="bottom-nav">
+            <a href="home.html" class="nav-icon" title="Inicio">
+                <img src="assets/images/homeicono.png" alt="Inicio" class="nav-icon-img">
+            </a>
+            <a href="messages.html" class="nav-icon" title="Mensajes">
+                <img src="assets/images/mensaje.png" alt="Mensajes" class="nav-icon-img">
+            </a>
+            <a href="add.html" class="nav-icon" title="Agregar">
+                <img src="assets/images/agregarNota.png" alt="Agregar" class="nav-icon-img">
+            </a>
+            <a href="settings.html" class="nav-icon" title="Configuración">
+                <img src="assets/images/config.png" alt="Configuración" class="nav-icon-img">
+            </a>
+        </nav>
+    </footer>
+
+    <script>
+        let currentValue = 50; // Valor inicial del brillo (0-100)
+        let originalValue = 50;
+        let isDragging = false;
+        let adjustmentBar;
+        let indicator;
+
+        function adjustValue(change) {
+            currentValue = Math.max(0, Math.min(100, currentValue + change));
+            updateDisplay();
+            checkForChanges();
+        }
+
+        function updateDisplay() {
+            indicator.style.left = currentValue + '%';
+        }
+
+        function checkForChanges() {
+            if (currentValue !== originalValue) {
+                document.getElementById('actionButtons').style.display = 'flex';
+            } else {
+                document.getElementById('actionButtons').style.display = 'none';
+            }
+        }
+
+        function saveChanges() {
+            originalValue = currentValue;
+            // Guardar el valor del brillo
+            localStorage.setItem('brightnessValue', currentValue);
+            // Redirigir a la página de éxito
+            window.location.href = 'success-save.html?return=visual-aids.html';
+        }
+
+        function cancelChanges() {
+            // Volver a ayudas visuales sin guardar
+            window.location.href = 'visual-aids.html';
+        }
+
+
+        // Cargar valor guardado al iniciar
+        window.onload = function() {
+            adjustmentBar = document.getElementById('adjustmentBar');
+            indicator = document.getElementById('indicator');
+            
+            const savedValue = localStorage.getItem('brightnessValue');
+            if (savedValue) {
+                currentValue = parseInt(savedValue);
+                originalValue = currentValue;
+            } else {
+                originalValue = currentValue;
+            }
+            updateDisplay();
+            checkForChanges();
+
+            // Permitir arrastrar el indicador
+            indicator.addEventListener('mousedown', function(e) {
+                isDragging = true;
+                e.preventDefault();
+            });
+
+            // Permitir clic en la barra para mover el indicador
+            adjustmentBar.addEventListener('click', function(e) {
+                const rect = adjustmentBar.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const percentage = Math.max(0, Math.min(100, (x / rect.width) * 100));
+                currentValue = Math.round(percentage);
+                updateDisplay();
+                checkForChanges();
+            });
+        };
+
+        document.addEventListener('mousemove', function(e) {
+            if (isDragging && adjustmentBar) {
+                const rect = adjustmentBar.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const percentage = Math.max(0, Math.min(100, (x / rect.width) * 100));
+                currentValue = Math.round(percentage);
+                updateDisplay();
+                checkForChanges();
+            }
+        });
+
+        document.addEventListener('mouseup', function() {
+            isDragging = false;
+        });
+    </script>
+</body>
+</html>
+

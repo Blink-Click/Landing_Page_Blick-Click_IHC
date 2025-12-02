@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eliminar Acceso - Blink Click</title>
+    <link rel="stylesheet" href="assets/styles/styles.css">
+    <style>
+        .eliminar-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 60vh;
+            gap: 40px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        .eliminar-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            width: 100%;
+            max-width: 400px;
+        }
+        
+        .eliminar-button {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 18px 30px;
+            border-radius: 20px;
+            font-size: 16px;
+            font-weight: 600;
+            text-align: center;
+            width: 100%;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3), 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        .eliminar-button-confirmar {
+            background-color: rgba(0, 170, 85, 0.5);
+            color: #fff;
+        }
+        
+        .eliminar-button-confirmar:hover {
+            background-color: rgba(0, 136, 68, 0.5);
+            box-shadow: 0 6px 12px rgba(0, 170, 85, 0.4), 0 3px 6px rgba(0, 0, 0, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .eliminar-button-cancelar {
+            background-color: rgba(145, 0, 2, 0.5);
+            color: #fff;
+        }
+        
+        .eliminar-button-cancelar:hover {
+            background-color: rgba(112, 0, 1, 0.5);
+            box-shadow: 0 6px 12px rgba(145, 0, 2, 0.4), 0 3px 6px rgba(0, 0, 0, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .eliminar-icon {
+            width: 24px;
+            height: 24px;
+            flex-shrink: 0;
+        }
+        
+        .eliminar-question {
+            color: #fff;
+            font-size: 18px;
+            font-weight: 500;
+            text-align: center;
+            margin-top: 20px;
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header con degradado -->
+    <header class="top-banner">
+        <div class="header-content">
+            <div class="logo">
+                <img src="assets/images/logo.png" alt="BLINK CLICK" class="logo-img">
+            </div>
+            <div class="header-icons">
+                <a href="contrast.html" class="icon-link" title="Cambiar contraste">
+                    <img src="assets/images/contraste.png" alt="Cambiar contraste" class="icon-img">
+                </a>
+                <a href="notifications.html" class="icon-link" title="Notificaciones">
+                    <img src="assets/images/notificacion.png" alt="Notificaciones" class="icon-img">
+                </a>
+                <a href="profile.html" class="profile-link" title="Perfil">
+                    <img src="assets/images/usuario.jpg" alt="Usuario" class="profile-image">
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Contenido principal -->
+    <main class="main-content">
+        <div class="eliminar-container">
+            <!-- Pregunta dinámica -->
+            <p class="eliminar-question" id="eliminar-question">¿Deseas eliminar este acceso?</p>
+
+            <!-- Botones de acción -->
+            <div class="eliminar-buttons">
+                <button class="eliminar-button eliminar-button-confirmar" onclick="confirmarEliminacion()">
+                    <svg class="eliminar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20 6L9 17l-5-5"/>
+                    </svg>
+                    <span>Confirmar</span>
+                </button>
+
+                <button class="eliminar-button eliminar-button-cancelar" onclick="cancelarEliminacion()">
+                    <svg class="eliminar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"/>
+                        <line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                    <span>Cancelar</span>
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer con degradado y navegación -->
+    <footer class="bottom-banner">
+        <nav class="bottom-nav">
+            <a href="home.html" class="nav-icon" title="Inicio">
+                <img src="assets/images/homeicono.png" alt="Inicio" class="nav-icon-img">
+            </a>
+            <a href="messages.html" class="nav-icon" title="Mensajes">
+                <img src="assets/images/mensaje.png" alt="Mensajes" class="nav-icon-img">
+            </a>
+            <a href="add.html" class="nav-icon" title="Agregar">
+                <img src="assets/images/agregarNota.png" alt="Agregar" class="nav-icon-img">
+            </a>
+            <a href="settings.html" class="nav-icon" title="Configuración">
+                <img src="assets/images/config.png" alt="Configuración" class="nav-icon-img">
+            </a>
+        </nav>
+    </footer>
+
+    <script src="assets/scripts/script.js"></script>
+</body>
+</html>
+

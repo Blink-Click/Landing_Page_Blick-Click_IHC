@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ajuste de Ícono - Blink Click</title>
+  <link rel="stylesheet" href="assets/styles/styles.css"/>
+</head>
+<body>
+  <!-- Banner superior -->
+  <header class="top-banner">
+    <div class="header-content">
+      <div class="logo">
+        <img src="assets/images/logo.png" alt="BLINK CLICK" class="logo-img">
+      </div>
+      <div class="header-icons">
+        <a href="contrast.html" class="icon-link" title="Cambiar contraste">
+          <img src="assets/images/contraste.png" alt="Contraste" class="icon-img">
+        </a>
+        <a href="notifications.html" class="icon-link" title="Notificaciones">
+          <img src="assets/images/notificacion.png" alt="Notificaciones" class="icon-img">
+        </a>
+        <a href="profile.html" class="profile-link" title="Perfil">
+          <img src="assets/images/usuario.jpg" alt="Usuario" class="profile-image">
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Contenido principal -->
+  <main class="main-content">
+    <h1 class="page-title" style="margin-top: 36px;">Ajuste de ícono</h1>
+    <div class="page-description" style="margin-bottom: 32px;">Elige el tamaño de los íconos en pantalla</div>
+
+    <!-- Selector visual del tamaño -->
+    <div class="ajuste-tamano-grupo" style="margin-bottom: 36px;">
+      <button class="ajuste-tamano-btn" data-size="xs" aria-label="Iconos muy pequeños"></button>
+      <button class="ajuste-tamano-btn" data-size="sm" aria-label="Iconos pequeños"></button>
+      <button class="ajuste-tamano-btn activo" data-size="md" aria-label="Iconos medianos"></button>
+      <button class="ajuste-tamano-btn" data-size="lg" aria-label="Iconos grandes"></button>
+      <button class="ajuste-tamano-btn" data-size="xl" aria-label="Iconos muy grandes"></button>
+    </div>
+
+    <!-- Ejemplo de iconos alineados centrados -->
+    <div class="ajuste-iconos-row">
+      <img src="assets/images/google-icon.png" alt="Google" class="icono-ajuste" style="width:60px;height:60px;">
+      <img src="assets/images/whatsapp-icon.png" alt="WhatsApp" class="icono-ajuste" style="width:60px;height:60px;">
+      <img src="assets/images/messenger-icon.png" alt="Messenger" class="icono-ajuste" style="width:60px;height:60px;">
+    </div>
+
+    <!-- Botones de acción -->
+    <div style="display:flex;flex-direction:column;gap:20px;max-width:370px;margin:0 auto;margin-bottom:10px;">
+      <button class="action-button" type="button" style="width:100%;" onclick="window.location.href='report-success.html'">Guardar cambios</button>
+      <button class="cancel-button" type="button" style="width:100%;" onclick="history.back()">Cancelar cambios</button>
+    </div>
+
+  </main>
+
+  <!-- Footer/banner inferior -->
+  <footer class="bottom-banner">
+    <nav class="bottom-nav">
+      <a href="home.html" class="nav-icon" title="Inicio">
+        <img src="assets/images/homeicono.png" alt="Inicio" class="nav-icon-img">
+      </a>
+      <a href="messages.html" class="nav-icon" title="Mensajes">
+        <img src="assets/images/mensaje.png" alt="Mensajes" class="nav-icon-img">
+      </a>
+      <a href="add.html" class="nav-icon" title="Agregar">
+        <img src="assets/images/agregarNota.png" alt="Agregar" class="nav-icon-img">
+      </a>
+      <a href="settings.html" class="nav-icon" title="Configuración">
+        <img src="assets/images/config.png" alt="Configuración" class="nav-icon-img">
+      </a>
+    </nav>
+  </footer>
+  <script src="assets/scripts/script.js"></script>
+</body>
+</html>

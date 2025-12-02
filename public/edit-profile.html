@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blink Click - Editar Perfil</title>
+    <link rel="stylesheet" href="assets/styles/styles.css">
+</head>
+<body>
+    <header class="top-banner">
+        <div class="header-content">
+            <div class="logo">
+                <img src="assets/images/logo.png" alt="BLINK CLICK" class="logo-img">
+            </div>
+            <div class="header-icons">
+                <a href="contrast.html" class="icon-link" title="Cambiar contraste">
+                    <img src="assets/images/contraste.png" alt="Cambiar contraste" class="icon-img">
+                </a>
+                <a href="notifications.html" class="icon-link" title="Notificaciones">
+                    <img src="assets/images/notificacion.png" alt="Notificaciones" class="icon-img">
+                </a>
+                <a href="profile.html" class="profile-link" title="Perfil">
+                    <img src="assets/images/usuario.jpg" alt="Usuario" class="profile-image">
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <a href="#" class="back-arrow" title="Volver">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M19 12H5M12 19l-7-7 7-7"/>
+            </svg>
+        </a>
+
+        <div class="profile-container">
+            <div class="profile-image-container">
+                <img src="assets/images/usuario.jpg" alt="Foto de perfil" class="profile-image-large">
+                <a href="qr.html" class="qr-button">QR</a>
+            </div>
+
+            <div class="profile-data-container">
+                <div class="profile-field">
+                    <label for="edit-nombre">Nombre:</label>
+                    <input type="text" id="edit-nombre" name="nombre" placeholder="Ingresa tu nombre">
+                </div>
+                <div class="profile-field">
+                    <label for="edit-apellidos">Apellidos:</label>
+                    <input type="text" id="edit-apellidos" name="apellidos" placeholder="Ingresa tus apellidos">
+                </div>
+                <div class="profile-field">
+                    <label for="edit-correo">Correo:</label>
+                    <input type="email" id="edit-correo" name="correo" readonly>
+                </div>
+                <div class="profile-field">
+                    <label for="edit-telefono">Teléfono:</label>
+                    <input type="tel" id="edit-telefono" name="telefono" placeholder="Ingresa tu teléfono">
+                </div>
+            </div>
+
+            <div class="edit-profile-actions">
+                <button id="save-profile-btn" class="action-button">
+                    Guardar cambios
+                </button>
+                <button id="cancel-profile-btn" class="cancel-button">
+                    Cancelar
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bottom-banner">
+        <nav class="bottom-nav">
+            <a href="home.html" class="nav-icon" title="Inicio">
+                <img src="assets/images/homeicono.png" alt="Inicio" class="nav-icon-img">
+            </a>
+            <a href="messages.html" class="nav-icon" title="Mensajes">
+                <img src="assets/images/mensaje.png" alt="Mensajes" class="nav-icon-img">
+            </a>
+            <a href="add.html" class="nav-icon" title="Agregar">
+                <img src="assets/images/agregarNota.png" alt="Agregar" class="nav-icon-img">
+            </a>
+            <a href="settings.html" class="nav-icon" title="Configuración">
+                <img src="assets/images/config.png" alt="Configuración" class="nav-icon-img">
+            </a>
+        </nav>
+    </footer>
+
+    <script src="assets/scripts/script.js"></script>
+</body>
+</html>
+

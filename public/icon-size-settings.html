@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blink Click - Tamaño de Iconos</title>
+    <link rel="stylesheet" href="assets/styles/styles.css">
+</head>
+<body>
+    <!-- Header con degradado -->
+    <header class="top-banner">
+        <div class="header-content">
+            <!-- Logo a la izquierda -->
+            <div class="logo">
+                <img src="assets/images/logo.png" alt="BLINK CLICK" class="logo-img">
+            </div>
+            
+            <!-- Iconos a la derecha -->
+            <div class="header-icons">
+                <a href="contrast.html" class="icon-link" title="Cambiar contraste">
+                    <img src="assets/images/contraste.png" alt="Cambiar contraste" class="icon-img">
+                </a>
+                <a href="notifications.html" class="icon-link" title="Notificaciones">
+                    <img src="assets/images/notificacion.png" alt="Notificaciones" class="icon-img">
+                </a>
+                <a href="profile.html" class="profile-link" title="Perfil">
+                    <img src="assets/images/usuario.jpg" alt="Usuario" class="profile-image">
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Contenido principal -->
+    <main class="main-content">
+        <!-- Flecha hacia atrás -->
+        <a href="element-size.html" class="back-arrow" title="Volver">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M19 12H5M12 19l-7-7 7-7"/>
+            </svg>
+        </a>
+
+        <!-- Título -->
+        <h1 class="page-title">Tamaño de Iconos</h1>
+
+        <!-- Contenedor de ajuste -->
+        <div class="icon-size-container">
+            <!-- Ejemplo de iconos -->
+            <div class="icon-example-container">
+                <div class="icon-example-item">
+                    <img src="assets/images/facebook.png" alt="Facebook" class="icon-example" id="iconExample1">
+                </div>
+                <div class="icon-example-item">
+                    <img src="assets/images/spoti.png" alt="Spotify" class="icon-example" id="iconExample2">
+                </div>
+                <div class="icon-example-item">
+                    <img src="assets/images/youtube.png" alt="YouTube" class="icon-example" id="iconExample3">
+                </div>
+            </div>
+
+            <!-- Barra de ajuste con puntos -->
+            <div class="text-size-bar-container">
+                <span class="text-size-label-small">A</span>
+                <div class="text-size-bar-wrapper">
+                    <div class="text-size-bar" id="iconSizeBar">
+                        <div class="text-size-dots">
+                            <div class="text-size-dot" data-level="1"></div>
+                            <div class="text-size-dot" data-level="2"></div>
+                            <div class="text-size-dot" data-level="3"></div>
+                            <div class="text-size-dot" data-level="4"></div>
+                            <div class="text-size-dot" data-level="5"></div>
+                            <div class="text-size-dot" data-level="6"></div>
+                        </div>
+                        <div class="text-size-indicator" id="iconSizeIndicator" style="left: 0%;"></div>
+                    </div>
+                </div>
+                <span class="text-size-label-large">A</span>
+            </div>
+
+            <!-- Botones de acción (ocultos inicialmente) -->
+            <div class="adjustment-actions" id="actionButtons" style="display: none;">
+                <button class="action-button" onclick="saveIconSize()">Guardar cambios</button>
+                <button class="cancel-button" onclick="cancelIconSize()">Cancelar cambio</button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer con degradado y navegación -->
+    <footer class="bottom-banner">
+        <nav class="bottom-nav">
+            <a href="home.html" class="nav-icon" title="Inicio">
+                <img src="assets/images/homeicono.png" alt="Inicio" class="nav-icon-img">
+            </a>
+            <a href="messages.html" class="nav-icon" title="Mensajes">
+                <img src="assets/images/mensaje.png" alt="Mensajes" class="nav-icon-img">
+            </a>
+            <a href="add.html" class="nav-icon" title="Agregar">
+                <img src="assets/images/agregarNota.png" alt="Agregar" class="nav-icon-img">
+            </a>
+            <a href="settings.html" class="nav-icon" title="Configuración">
+                <img src="assets/images/config.png" alt="Configuración" class="nav-icon-img">
+            </a>
+        </nav>
+    </footer>
+
+    <script>
+        let currentLevel = 1; // Nivel inicial (1-6)
+        let originalLevel = 1;
+        let iconSizeBar;
+        let iconSizeIndicator;
+
+        const iconSizeLevels = {
+            1: '30px',
+            2: '40px',
+            3: '50px',
+            4: '60px',
+            5: '70px',
+            6: '80px'
+        };
+
+        function updateIconSize() {
+            const size = iconSizeLevels[currentLevel];
+            document.getElementById('iconExample1').style.width = size;
+            document.getElementById('iconExample1').style.height = size;
+            document.getElementById('iconExample2').style.width = size;
+            document.getElementById('iconExample2').style.height = size;
+            document.getElementById('iconExample3').style.width = size;
+            document.getElementById('iconExample3').style.height = size;
+            
+            // Mover indicador
+            const position = ((currentLevel - 1) / 5) * 100;
+            iconSizeIndicator.style.left = position + '%';
+            
+            // Mostrar botones si hay cambios
+            if (currentLevel !== originalLevel) {
+                document.getElementById('actionButtons').style.display = 'flex';
+            } else {
+                document.getElementById('actionButtons').style.display = 'none';
+            }
+        }
+
+        function saveIconSize() {
+            originalLevel = currentLevel;
+            localStorage.setItem('iconSizeLevel', currentLevel);
+            window.location.href = 'success-save.html?return=element-size.html';
+        }
+
+        function cancelIconSize() {
+            currentLevel = originalLevel;
+            updateIconSize();
+            window.location.href = 'element-size.html';
+        }
+
+        window.onload = function() {
+            iconSizeBar = document.getElementById('iconSizeBar');
+            iconSizeIndicator = document.getElementById('iconSizeIndicator');
+            
+            // Cargar nivel guardado
+            const savedLevel = localStorage.getItem('iconSizeLevel');
+            if (savedLevel) {
+                currentLevel = parseInt(savedLevel);
+                originalLevel = currentLevel;
+            }
+            updateIconSize();
+
+            // Permitir clic en los puntos
+            const dots = document.querySelectorAll('.text-size-dot');
+            dots.forEach((dot, index) => {
+                dot.addEventListener('click', function() {
+                    currentLevel = index + 1;
+                    updateIconSize();
+                });
+            });
+
+            // Permitir clic en la barra
+            iconSizeBar.addEventListener('click', function(e) {
+                const rect = iconSizeBar.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const percentage = Math.max(0, Math.min(100, (x / rect.width) * 100));
+                const level = Math.round((percentage / 100) * 5) + 1;
+                currentLevel = Math.max(1, Math.min(6, level));
+                updateIconSize();
+            });
+        };
+    </script>
+</body>
+</html>
+
