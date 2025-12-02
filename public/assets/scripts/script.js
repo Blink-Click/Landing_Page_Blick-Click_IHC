@@ -56,6 +56,91 @@
 }
 
 let screenshotCounterInterval = null;
+const MAX_ACCESOS = 5;
+const THEME_KEY = 'blinkTheme';
+
+function getPerfilActual() {
+    return localStorage.getItem('perfilSeleccionado') || 'paciente';
+}
+
+function getProfileImagePath() {
+    return getPerfilActual() === 'cuidador'
+        ? 'assets/images/cuidador.jpg'
+        : 'assets/images/usuario.jpg';
+}
+
+function updateProfileImages() {
+    const profileSrc = getProfileImagePath();
+    const profileImages = document.querySelectorAll('.profile-image, .profile-image-large');
+    profileImages.forEach(img => {
+        if (img) {
+            img.src = profileSrc;
+        }
+    });
+}
+
+function initLogoShortcut() {
+    const logos = document.querySelectorAll('.logo');
+    logos.forEach(logo => {
+        if (!logo) return;
+        const existingLink = logo.querySelector('a');
+        if (existingLink) return;
+        logo.style.cursor = 'pointer';
+        logo.addEventListener('click', () => {
+            window.location.href = 'home.html';
+        });
+    });
+}
+
+function applyTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem(THEME_KEY, theme);
+}
+
+function initThemeToggle() {
+    const savedTheme = localStorage.getItem(THEME_KEY) || 'dark';
+    applyTheme(savedTheme);
+
+    const toggleBtn = document.getElementById('toggle-theme');
+    if (toggleBtn) {
+        toggleBtn.textContent = savedTheme === 'dark' ? 'Modo Claro' : 'Modo Oscuro';
+        toggleBtn.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+            const nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            applyTheme(nextTheme);
+            toggleBtn.textContent = nextTheme === 'dark' ? 'Modo Claro' : 'Modo Oscuro';
+        });
+    }
+
+    // Convertir el icono de contraste en interruptor de tema (icono de sol)
+    const contrastLinks = document.querySelectorAll('a[href="contrast.html"]');
+    contrastLinks.forEach(link => {
+        link.addEventListener('click', function (e) {
+            e.preventDefault();
+            const currentTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+            const nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            applyTheme(nextTheme);
+        });
+    });
+}
+
+function initHamburgerMenus() {
+    const navbars = document.querySelectorAll('.navbar');
+    navbars.forEach(navbar => {
+        const toggle = navbar.querySelector('.nav-toggle');
+        if (!toggle) return;
+        toggle.addEventListener('click', () => {
+            const isOpen = navbar.classList.toggle('menu-open');
+            toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+        });
+    });
+}
+
+function markAppShell() {
+    if (document.querySelector('.bottom-banner')) {
+        document.body.classList.add('app-shell');
+    }
+}
 
 function initScreenshotTimer() {
     const timeOptionBtns = document.querySelectorAll('.time-option-btn');
@@ -573,6 +658,11 @@ function initNotifications() {
 
 document.addEventListener('DOMContentLoaded', function() {
     const currentPage = window.location.pathname.split('/').pop();
+    updateProfileImages();
+    initLogoShortcut();
+    initThemeToggle();
+    initHamburgerMenus();
+    markAppShell();
     if (currentPage === 'zoom.html') initZoomSlider();
     if (currentPage === 'screenshot.html') initScreenshotTimer();
     if (currentPage === 'cursor-list.html') initCursorList();
@@ -582,6 +672,9 @@ document.addEventListener('DOMContentLoaded', function() {
     if (currentPage === 'edit-profile.html') initEditProfile();
     if (currentPage === 'alerts.html') initAlerts();
     if (currentPage === 'notifications.html') initNotifications();
+    if (currentPage === 'visual-rest.html') initVisualRest();
+    if (currentPage === 'rest-mode.html') initRestMode();
+    if (currentPage === 'messages.html') initMessagesPage();
     initScreenshotCounter();
 });
 // ============================================
@@ -640,6 +733,14 @@ document.addEventListener('DOMContentLoaded', function() {
     
     if (currentPage === 'calibration.html' || currentPage.includes('calibration')) {
         initCalibration();
+    }
+
+    if (currentPage === 'recordatorios.html' || currentPage.includes('recordatorios')) {
+        initRemindersPage();
+    }
+
+    if (currentPage === 'agregar-recordatorio.html' || currentPage.includes('agregar-recordatorio')) {
+        initAddReminderPage();
     }
 });
 
@@ -802,6 +903,11 @@ function initAgregarAcceso() {
 
         // Obtener accesos existentes del localStorage
         let accesos = JSON.parse(localStorage.getItem('accesosDirectos') || '[]');
+        if (accesos.length >= MAX_ACCESOS) {
+            alert('Solo puedes tener 5 accesos rápidos. Elimina uno antes de agregar otro.');
+            window.location.href = 'home.html';
+            return;
+        }
 
         // Agregar nuevo acceso
         const nuevoAcceso = {
@@ -837,16 +943,38 @@ function initAccesses() {
 
 // FunciÃ³n compartida para cargar accesos directos
 function cargarAccesosDirectos() {
-    const accesos = JSON.parse(localStorage.getItem('accesosDirectos') || '[]');
+    let accesos = JSON.parse(localStorage.getItem('accesosDirectos') || '[]');
+    if (accesos.length > MAX_ACCESOS) {
+        accesos = accesos.slice(-MAX_ACCESOS);
+        localStorage.setItem('accesosDirectos', JSON.stringify(accesos));
+    }
     const container = document.getElementById('accesos-container');
     if (!container) return;
     
-    const botonAgregar = container.querySelector('a[href="agregar-acceso.html"]') || 
-                         container.querySelector('a[href*="agregar"]');
+    const botonAgregar = container.querySelector('[data-role="add-access"]');
+    const botonEliminar = container.querySelector('[data-role="delete-access"]');
+    const estadoVacio = container.querySelector('[data-role="empty-access"]');
 
     // Limpiar accesos dinÃ¡micos anteriores (si existen)
     const accesosDinamicos = container.querySelectorAll('.acceso-dinamico');
     accesosDinamicos.forEach(acceso => acceso.remove());
+
+    if (estadoVacio) {
+        estadoVacio.style.display = accesos.length ? 'none' : 'flex';
+    }
+
+    if (botonAgregar) {
+        const lleno = accesos.length >= MAX_ACCESOS;
+        botonAgregar.classList.toggle('quick-access-btn-disabled', lleno);
+        botonAgregar.setAttribute('aria-disabled', lleno ? 'true' : 'false');
+    }
+
+    if (botonEliminar && !botonEliminar.dataset.bound) {
+        botonEliminar.dataset.bound = 'true';
+        botonEliminar.addEventListener('click', () => {
+            window.location.href = 'accesses.html';
+        });
+    }
 
     // Agregar cada acceso guardado antes del botÃ³n "Agregar"
     accesos.forEach(acceso => {
@@ -924,8 +1052,9 @@ function cargarAccesosDirectos() {
             accesoWrapper.appendChild(btnEliminar);
         }
         
-        if (botonAgregar) {
-            container.insertBefore(accesoWrapper, botonAgregar);
+        const referencia = botonAgregar || botonEliminar;
+        if (referencia) {
+            container.insertBefore(accesoWrapper, referencia);
         } else {
             container.appendChild(accesoWrapper);
         }
@@ -983,21 +1112,7 @@ function initSuccessSave() {
 // ============================================
 function initGuide() {
     const guideImage = document.getElementById('guide-image');
-    const prevBtn = document.getElementById('prev-btn');
-    const nextBtn = document.getElementById('next-btn');
-    
-    if (!guideImage || !prevBtn || !nextBtn) return;
-    
-    // Por ahora, cambiar a imagen vacÃ­a cuando se presionan las flechas
-    prevBtn.addEventListener('click', function() {
-        guideImage.src = '';
-        guideImage.alt = 'Imagen vacÃ­a';
-    });
-    
-    nextBtn.addEventListener('click', function() {
-        guideImage.src = '';
-        guideImage.alt = 'Imagen vacÃ­a';
-    });
+    if (!guideImage) return;
 }
 
 // ============================================
@@ -1024,29 +1139,39 @@ function initReport() {
     const btnEnviar = document.getElementById('enviar-reporte');
     if (!btnEnviar) return;
     
-    btnEnviar.addEventListener('click', function() {
-        // Verificar si hay algÃºn checkbox marcado
-        const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-        const otrosInput = document.getElementById('otros-texto');
-        let hasSelection = false;
+    const radios = Array.from(document.querySelectorAll('input[name="problema"]'));
+    const otrosRadio = document.getElementById('error6');
+    const otrosInput = document.getElementById('otros-texto');
 
-        checkboxes.forEach(function(checkbox) {
-            if (checkbox.checked) {
-                hasSelection = true;
-            }
+    if (otrosRadio && otrosInput) {
+        radios.forEach(radio => {
+            radio.addEventListener('change', () => {
+                const activo = otrosRadio.checked;
+                otrosInput.disabled = !activo;
+                if (!activo) {
+                    otrosInput.value = '';
+                } else {
+                    otrosInput.focus();
+                }
+            });
         });
-
-        // Verificar si el campo "otros" tiene texto
-        if (otrosInput && otrosInput.value.trim() !== '') {
-            hasSelection = true;
+    }
+    
+    btnEnviar.addEventListener('click', function() {
+        const seleccionado = radios.find(radio => radio.checked);
+        if (!seleccionado) {
+            alert('Por favor, selecciona un problema a reportar.');
+            return;
         }
 
-        // Si hay alguna selecciÃ³n o texto, redirigir a la pantalla de Ã©xito
-        if (hasSelection) {
-            window.location.href = 'report-success.html';
-        } else {
-            alert('Por favor, selecciona al menos una opciÃ³n o describe el problema.');
+        if (seleccionado === otrosRadio) {
+            if (!otrosInput || !otrosInput.value.trim()) {
+                alert('Describe el problema en la opciÃ³n "otros".');
+                return;
+            }
         }
+
+        window.location.href = 'report-success.html';
     });
 }
 
@@ -1150,6 +1275,660 @@ function initCalibration() {
     } else {
         ultimaCalibracionInput.value = 'Nunca';
     }
+}
+
+// ============================================
+// DESCANSO VISUAL - MENSAJES DE ACTIVACIÓN
+// ============================================
+function initVisualRest() {
+    const options = document.querySelectorAll('.visual-rest-option');
+    if (!options.length) return;
+
+    let toast = document.getElementById('visualRestToast');
+    if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'visualRestToast';
+        toast.className = 'status-toast';
+        document.body.appendChild(toast);
+    }
+
+    function showToast(message) {
+        toast.textContent = '✔ ' + message;
+        toast.style.display = 'block';
+        toast.classList.remove('status-toast-hide');
+        setTimeout(() => {
+            toast.classList.add('status-toast-hide');
+        }, 2000);
+    }
+
+    options.forEach(btn => {
+        btn.addEventListener('click', function () {
+            const mode = this.getAttribute('data-mode') === 'off' ? 'off' : 'on';
+            const message = mode === 'on' ? 'Descanso visual activado' : 'Descanso visual desactivado';
+            showToast(message);
+        });
+    });
+}
+
+// ============================================
+// MODO REPOSO - ACTIVAR / DESACTIVAR
+// ============================================
+function initRestMode() {
+    const onBtn = document.getElementById('restModeOnBtn');
+    const offBtn = document.getElementById('restModeOffBtn');
+    const overlay = document.getElementById('restModeOverlay');
+    const messageText = document.getElementById('restModeMessageText');
+
+    if (!onBtn || !offBtn || !overlay || !messageText) return;
+
+    function showRestModeMessage(text) {
+        messageText.textContent = text;
+        overlay.style.display = 'flex';
+        setTimeout(() => {
+            overlay.style.display = 'none';
+            window.location.href = 'quick-settings.html';
+        }, 2000);
+    }
+
+    onBtn.addEventListener('click', function () {
+        showRestModeMessage('Modo reposo activado');
+    });
+
+    offBtn.addEventListener('click', function () {
+        showRestModeMessage('Modo reposo desactivado');
+    });
+}
+
+// ============================================
+// MENSAJERÍA - MENSAJES PREDETERMINADOS
+// ============================================
+function getDefaultPresetMessages() {
+    return [
+        'Papá, tengo hambre',
+        'Batería baja',
+        'Ocurrió un accidente',
+        'Necesito ayuda',
+        'Abre la puerta',
+        'Iré a comprar',
+        'Tengo frío'
+    ];
+}
+
+function getPresetMessages() {
+    const saved = localStorage.getItem('presetMessages');
+    if (saved) {
+        try {
+            const parsed = JSON.parse(saved);
+            if (Array.isArray(parsed) && parsed.length) {
+                return parsed.slice(0, 8);
+            }
+        } catch (e) {
+            // ignore
+        }
+    }
+    return getDefaultPresetMessages();
+}
+
+function savePresetMessages(messages) {
+    const limited = Array.isArray(messages) ? messages.slice(0, 8) : [];
+    localStorage.setItem('presetMessages', JSON.stringify(limited));
+}
+
+function initMessagesPage() {
+    const mainMenu = document.getElementById('messages-main-menu');
+    const contactsView = document.getElementById('messages-contacts');
+    const presetsView = document.getElementById('messages-presets');
+    const configView = document.getElementById('messages-config');
+    if (!mainMenu || !contactsView || !presetsView || !configView) return;
+
+    const menuButtons = document.querySelectorAll('.messages-menu-btn');
+    const backButtons = document.querySelectorAll('.messages-back-btn');
+    const contactsListEl = document.getElementById('messagesContactsList');
+    const presetsListEl = document.getElementById('presetMessagesList');
+    const configListEl = document.getElementById('configMessagesList');
+    const presetsTitleEl = document.getElementById('messages-presets-title');
+    const presetsSubtitleEl = document.getElementById('messages-presets-subtitle');
+    const messageSentToast = document.getElementById('messageSentToast');
+    const messageSentOverlay = document.getElementById('messageSentOverlay');
+
+    const addPresetBtn = document.getElementById('addPresetMessageBtn');
+    const configLimitToast = document.getElementById('configLimitToast');
+    const modal = document.getElementById('presetMessageModal');
+    const modalInput = document.getElementById('presetMessageInput');
+    const savePresetBtn = document.getElementById('savePresetMessageBtn');
+    const cancelPresetBtn = document.getElementById('cancelPresetMessageBtn');
+
+    let currentView = 'main';
+    let previousView = 'main';
+    let currentContext = null; // 'contact' o 'caregiver'
+    let editingIndex = null;
+    let deleteMode = false;
+    let contactToDelete = null;
+
+    // Elementos para el panel de agregar contacto en mensajería
+    const messagesAddContactModal = document.getElementById('messagesAddContactModal');
+    const messagesAddContactForm = document.getElementById('messagesAddContactForm');
+    const messagesContactNameInput = document.getElementById('messagesContactName');
+    const messagesContactLastNameInput = document.getElementById('messagesContactLastName');
+    const messagesContactNumberInput = document.getElementById('messagesContactNumber');
+    const messagesCancelAddContactBtn = document.getElementById('messagesCancelAddContactBtn');
+
+    // Elementos para el panel de confirmación de eliminación
+    const messagesDeleteContactModal = document.getElementById('messagesDeleteContactModal');
+    const messagesDeleteContactNameSpan = document.getElementById('messagesDeleteContactName');
+    const messagesConfirmDeleteContactBtn = document.getElementById('messagesConfirmDeleteContactBtn');
+    const messagesCancelDeleteContactBtn = document.getElementById('messagesCancelDeleteContactBtn');
+
+    function showSection(section) {
+        mainMenu.style.display = section === 'main' ? 'block' : 'none';
+        contactsView.style.display = section === 'contacts' ? 'block' : 'none';
+        presetsView.style.display = section === 'presets' ? 'block' : 'none';
+        configView.style.display = section === 'config' ? 'block' : 'none';
+        currentView = section;
+    }
+
+    function getEmergencyContacts() {
+        const saved = localStorage.getItem('emergencyContacts');
+        if (saved) {
+            try {
+                const parsed = JSON.parse(saved);
+                if (Array.isArray(parsed)) return parsed;
+            } catch (e) {
+                // ignore
+            }
+        }
+        return [
+            { id: 1, name: 'Papá', lastName: '', number: '' },
+            { id: 2, name: 'Mamá', lastName: '', number: '' }
+        ];
+    }
+
+    function renderContactsForMessages() {
+        if (!contactsListEl) return;
+        const contacts = getEmergencyContacts();
+        contactsListEl.innerHTML = '';
+
+        contacts.forEach(contact => {
+            const item = document.createElement('div');
+            item.className = 'contact-item messages-contact-item';
+
+            // Botón de eliminar (equis) cuando está activo el modo eliminar
+            if (deleteMode) {
+                const deleteBtn = document.createElement('button');
+                deleteBtn.type = 'button';
+                deleteBtn.className = 'contact-delete-btn';
+                deleteBtn.textContent = '✕';
+                deleteBtn.addEventListener('click', function (event) {
+                    event.stopPropagation();
+                    contactToDelete = contact.id;
+                    const fullName = contact.name + (contact.lastName ? ' ' + contact.lastName : '');
+                    if (messagesDeleteContactNameSpan) {
+                        messagesDeleteContactNameSpan.textContent = fullName;
+                    }
+                    if (messagesDeleteContactModal) {
+                        messagesDeleteContactModal.style.display = 'flex';
+                    }
+                });
+                item.appendChild(deleteBtn);
+            }
+
+            const info = document.createElement('button');
+            info.type = 'button';
+            info.className = 'contact-info';
+            info.textContent = contact.name + (contact.lastName ? ' ' + contact.lastName : '');
+            info.addEventListener('click', function () {
+                if (!deleteMode) {
+                    currentContext = { type: 'contact', name: contact.name };
+                    openPresetsView();
+                }
+            });
+
+            item.appendChild(info);
+            contactsListEl.appendChild(item);
+        });
+    }
+
+    function renderPresetMessagesList(container, forConfig) {
+        if (!container) return;
+        const messages = getPresetMessages();
+        container.innerHTML = '';
+
+        messages.forEach((msg, index) => {
+            const item = document.createElement('div');
+            item.className = 'preset-message-item';
+
+            const button = document.createElement(forConfig ? 'div' : 'button');
+            button.className = forConfig ? 'preset-message-text' : 'preset-message-btn';
+            button.textContent = msg;
+
+            if (!forConfig) {
+                button.type = 'button';
+                button.addEventListener('click', function () {
+                    // Mostrar pantalla completa de mensaje enviado
+                    if (messageSentOverlay) {
+                        messageSentOverlay.style.display = 'flex';
+                    }
+
+                    // Ocultar cualquier toast viejo si existiera
+                    if (messageSentToast) {
+                        messageSentToast.style.display = 'none';
+                    }
+
+                    // Después de un momento, regresar a la pantalla principal de mensajería
+                    setTimeout(() => {
+                        if (messageSentOverlay) {
+                            messageSentOverlay.style.display = 'none';
+                        }
+                        showSection('main');
+                    }, 2000);
+                });
+            }
+
+            item.appendChild(button);
+
+            if (forConfig) {
+                const actions = document.createElement('div');
+                actions.className = 'preset-message-actions';
+
+                const editBtn = document.createElement('button');
+                editBtn.type = 'button';
+                editBtn.className = 'secondary-button small';
+                editBtn.textContent = 'Editar';
+                editBtn.addEventListener('click', function () {
+                    editingIndex = index;
+                    openPresetModal(msg);
+                });
+
+                const deleteBtn = document.createElement('button');
+                deleteBtn.type = 'button';
+                deleteBtn.className = 'secondary-button small';
+                deleteBtn.textContent = 'Eliminar';
+                deleteBtn.addEventListener('click', function () {
+                    const all = getPresetMessages();
+                    all.splice(index, 1);
+                    savePresetMessages(all);
+                    renderPresetMessagesList(configListEl, true);
+                    renderPresetMessagesList(presetsListEl, false);
+                });
+
+                actions.appendChild(editBtn);
+                actions.appendChild(deleteBtn);
+                item.appendChild(actions);
+            }
+
+            container.appendChild(item);
+        });
+
+        if (forConfig && addPresetBtn) {
+            const total = getPresetMessages().length;
+            const disabled = total >= 8;
+            addPresetBtn.disabled = disabled;
+            addPresetBtn.classList.toggle('quick-access-btn-disabled', disabled);
+            if (disabled && configLimitToast) {
+                configLimitToast.style.display = 'block';
+            } else if (configLimitToast) {
+                configLimitToast.style.display = 'none';
+            }
+        }
+    }
+
+    function openPresetsView() {
+        previousView = currentView;
+        showSection('presets');
+        const messages = getPresetMessages();
+        renderPresetMessagesList(presetsListEl, false);
+
+        if (presetsTitleEl) {
+            presetsTitleEl.textContent = 'Mensajes predeterminados';
+        }
+        if (presetsSubtitleEl) {
+            if (currentContext && currentContext.type === 'contact') {
+                presetsSubtitleEl.textContent = 'Enviando mensaje a ' + currentContext.name;
+            } else if (currentContext && currentContext.type === 'caregiver') {
+                presetsSubtitleEl.textContent = 'Mensajes para tu cuidador vinculado';
+            } else {
+                presetsSubtitleEl.textContent = '';
+            }
+        }
+    }
+
+    function openPresetModal(initialText) {
+        if (!modal || !modalInput) return;
+        modalInput.value = initialText || '';
+        modal.style.display = 'flex';
+        modalInput.focus();
+    }
+
+    function closePresetModal() {
+        if (!modal || !modalInput) return;
+        modal.style.display = 'none';
+        modalInput.value = '';
+        editingIndex = null;
+    }
+
+    // Eventos de menú principal
+    menuButtons.forEach(btn => {
+        btn.addEventListener('click', function () {
+            const target = this.getAttribute('data-target');
+            if (target === 'contacts') {
+                renderContactsForMessages();
+                showSection('contacts');
+            } else if (target === 'caregiver') {
+                currentContext = { type: 'caregiver' };
+                openPresetsView();
+            } else if (target === 'config') {
+                showSection('config');
+                renderPresetMessagesList(configListEl, true);
+            }
+        });
+    });
+
+    // Botones de volver (no se usan actualmente en las vistas de contactos/cuidador)
+    backButtons.forEach(btn => {
+        btn.addEventListener('click', function () {
+            const back = this.getAttribute('data-back');
+            if (back === 'previous') {
+                showSection(previousView || 'main');
+            } else {
+                showSection('main');
+            }
+        });
+    });
+
+    // Botón para agregar mensaje
+    if (addPresetBtn) {
+        addPresetBtn.addEventListener('click', function () {
+            const total = getPresetMessages().length;
+            if (total >= 8) {
+                if (configLimitToast) {
+                    configLimitToast.style.display = 'block';
+                }
+                return;
+            }
+            editingIndex = null;
+            openPresetModal('');
+        });
+    }
+
+    // Guardar mensaje desde el modal
+    if (savePresetBtn) {
+        savePresetBtn.addEventListener('click', function () {
+            const text = modalInput ? modalInput.value.trim() : '';
+            if (!text) return;
+
+            const all = getPresetMessages();
+            if (editingIndex === null || editingIndex === undefined) {
+                if (all.length >= 8) {
+                    if (configLimitToast) configLimitToast.style.display = 'block';
+                    return;
+                }
+                all.push(text);
+            } else {
+                all[editingIndex] = text;
+            }
+
+            savePresetMessages(all);
+            renderPresetMessagesList(configListEl, true);
+            renderPresetMessagesList(presetsListEl, false);
+            closePresetModal();
+        });
+    }
+
+    if (cancelPresetBtn) {
+        cancelPresetBtn.addEventListener('click', function () {
+            closePresetModal();
+        });
+    }
+
+    // Botones para agregar / eliminar contacto en la vista de mensajes
+    const messagesAddContactBtn = document.getElementById('messagesAddContactBtn');
+    const messagesDeleteContactBtn = document.getElementById('messagesDeleteContactBtn');
+
+    if (messagesAddContactBtn) {
+        messagesAddContactBtn.addEventListener('click', function () {
+            // Mostrar panel para agregar contacto
+            if (messagesAddContactModal) {
+                messagesAddContactModal.style.display = 'flex';
+            }
+        });
+    }
+
+    if (messagesDeleteContactBtn) {
+        messagesDeleteContactBtn.addEventListener('click', function () {
+            deleteMode = !deleteMode;
+            renderContactsForMessages();
+        });
+    }
+
+    // Manejo del formulario de agregar contacto en mensajería
+    if (messagesAddContactForm) {
+        messagesAddContactForm.addEventListener('submit', function (event) {
+            event.preventDefault();
+            const name = messagesContactNameInput ? messagesContactNameInput.value.trim() : '';
+            const lastName = messagesContactLastNameInput ? messagesContactLastNameInput.value.trim() : '';
+            const number = messagesContactNumberInput ? messagesContactNumberInput.value.trim() : '';
+
+            if (!name || !lastName || !number) {
+                alert('Por favor completa todos los campos');
+                return;
+            }
+
+            const contacts = getEmergencyContacts();
+            contacts.push({
+                id: Date.now(),
+                name: name,
+                lastName: lastName,
+                number: number
+            });
+            localStorage.setItem('emergencyContacts', JSON.stringify(contacts));
+
+            if (messagesAddContactForm) {
+                messagesAddContactForm.reset();
+            }
+            if (messagesAddContactModal) {
+                messagesAddContactModal.style.display = 'none';
+            }
+            renderContactsForMessages();
+        });
+    }
+
+    if (messagesCancelAddContactBtn) {
+        messagesCancelAddContactBtn.addEventListener('click', function () {
+            if (messagesAddContactForm) {
+                messagesAddContactForm.reset();
+            }
+            if (messagesAddContactModal) {
+                messagesAddContactModal.style.display = 'none';
+            }
+        });
+    }
+
+    // Manejo del panel de confirmación de eliminación de contacto
+    if (messagesConfirmDeleteContactBtn) {
+        messagesConfirmDeleteContactBtn.addEventListener('click', function () {
+            if (contactToDelete !== null) {
+                const all = getEmergencyContacts().filter(c => c.id !== contactToDelete);
+                localStorage.setItem('emergencyContacts', JSON.stringify(all));
+                contactToDelete = null;
+                deleteMode = false;
+                if (messagesDeleteContactModal) {
+                    messagesDeleteContactModal.style.display = 'none';
+                }
+                renderContactsForMessages();
+            }
+        });
+    }
+
+    if (messagesCancelDeleteContactBtn) {
+        messagesCancelDeleteContactBtn.addEventListener('click', function () {
+            contactToDelete = null;
+            if (messagesDeleteContactModal) {
+                messagesDeleteContactModal.style.display = 'none';
+            }
+        });
+    }
+
+    // Iniciar en menú principal
+    showSection('main');
+}
+
+// ============================================
+// RECORDATORIOS - LISTA Y CREACIÓN
+// ============================================
+function getDefaultReminders() {
+    return [
+        {
+            id: 1,
+            title: 'Películas para ver',
+            content: 'Organiza tu próxima maratón del fin de semana.',
+            date: '25/09/25'
+        },
+        {
+            id: 2,
+            title: 'Comidas del mes',
+            content: 'Anota los ingredientes y evita olvidos en la compra.',
+            date: '25/09/25'
+        },
+        {
+            id: 3,
+            title: 'Planes de semana',
+            content: 'Organiza tus actividades recreativas con antelación.',
+            date: '25/09/25'
+        }
+    ];
+}
+
+function getReminders() {
+    const saved = localStorage.getItem('reminders');
+    if (saved) {
+        try {
+            const parsed = JSON.parse(saved);
+            if (Array.isArray(parsed)) return parsed;
+        } catch (e) {
+            // ignore parse error
+        }
+    }
+    return getDefaultReminders();
+}
+
+function saveReminders(reminders) {
+    if (!Array.isArray(reminders)) return;
+    localStorage.setItem('reminders', JSON.stringify(reminders));
+}
+
+function renderReminders(deleteMode) {
+    const listEl = document.getElementById('reminders-list') || document.querySelector('.reminder-list');
+    if (!listEl) return;
+
+    const reminders = getReminders();
+    listEl.innerHTML = '';
+
+    reminders.forEach(reminder => {
+        const card = document.createElement('article');
+        card.className = 'reminder-card';
+        card.dataset.id = reminder.id;
+
+        const textContainer = document.createElement('div');
+
+        const titleEl = document.createElement('h3');
+        titleEl.textContent = reminder.title;
+
+        const contentEl = document.createElement('p');
+        contentEl.textContent = reminder.content;
+
+        textContainer.appendChild(titleEl);
+        textContainer.appendChild(contentEl);
+
+        const dateEl = document.createElement('span');
+        dateEl.className = 'reminder-date';
+        dateEl.textContent = reminder.date;
+
+        card.appendChild(textContainer);
+        card.appendChild(dateEl);
+
+        listEl.appendChild(card);
+
+        const discardBtn = document.createElement('button');
+        discardBtn.type = 'button';
+        discardBtn.className = 'reminder-discard';
+        discardBtn.textContent = 'Descartar';
+        discardBtn.dataset.id = reminder.id;
+        discardBtn.style.display = deleteMode ? 'inline-flex' : 'none';
+        discardBtn.addEventListener('click', function () {
+            const id = this.dataset.id;
+            const current = getReminders().filter(r => String(r.id) !== String(id));
+            saveReminders(current);
+            renderReminders(true);
+        });
+
+        listEl.appendChild(discardBtn);
+    });
+}
+
+function initRemindersPage() {
+    const listEl = document.getElementById('reminders-list') || document.querySelector('.reminder-list');
+    if (!listEl) return;
+
+    if (!localStorage.getItem('reminders')) {
+        saveReminders(getDefaultReminders());
+    }
+
+    let deleteMode = false;
+    const deleteBtn = document.getElementById('reminders-delete-btn');
+
+    function updateDeleteButtonsVisibility() {
+        const buttons = document.querySelectorAll('.reminder-discard');
+        buttons.forEach(btn => {
+            btn.style.display = deleteMode ? 'inline-flex' : 'none';
+        });
+    }
+
+    if (deleteBtn && !deleteBtn.dataset.bound) {
+        deleteBtn.dataset.bound = 'true';
+        deleteBtn.addEventListener('click', function () {
+            deleteMode = !deleteMode;
+            this.classList.toggle('delete-mode-active', deleteMode);
+            updateDeleteButtonsVisibility();
+        });
+    }
+
+    renderReminders(deleteMode);
+}
+
+function initAddReminderPage() {
+    const titleInput = document.getElementById('reminder-title');
+    const contentInput = document.getElementById('reminder-content');
+    const saveBtn = document.getElementById('save-reminder-btn');
+
+    if (!titleInput || !contentInput || !saveBtn) return;
+
+    saveBtn.addEventListener('click', function () {
+        const title = titleInput.value.trim();
+        const content = contentInput.value.trim();
+
+        if (!title && !content) {
+            alert('Escribe al menos un título o una nota para el recordatorio.');
+            return;
+        }
+
+        const reminders = getReminders();
+        const now = new Date();
+        const day = String(now.getDate()).padStart(2, '0');
+        const month = String(now.getMonth() + 1).padStart(2, '0');
+        const year = String(now.getFullYear()).slice(-2);
+
+        const newReminder = {
+            id: Date.now(),
+            title: title || 'Recordatorio sin título',
+            content: content || '',
+            date: `${day}/${month}/${year}`
+        };
+
+        reminders.push(newReminder);
+        saveReminders(reminders);
+
+        window.location.href = 'recordatorios.html';
+    });
 }
 
 // Sistema de traducciones
