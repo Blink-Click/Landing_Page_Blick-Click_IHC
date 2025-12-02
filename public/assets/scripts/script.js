@@ -695,10 +695,6 @@ document.addEventListener('DOMContentLoaded', function() {
         initCalibracionPuntos();
     }
     
-    if (currentPage === 'agregar-acceso.html' || currentPage.includes('agregar-acceso')) {
-        initAgregarAcceso();
-    }
-    
     if (currentPage === 'home.html' || currentPage === '' || currentPage.includes('home')) {
         initHome();
     }
@@ -739,9 +735,6 @@ document.addEventListener('DOMContentLoaded', function() {
         initRemindersPage();
     }
 
-    if (currentPage === 'agregar-recordatorio.html' || currentPage.includes('agregar-recordatorio')) {
-        initAddReminderPage();
-    }
 });
 
 // ============================================
