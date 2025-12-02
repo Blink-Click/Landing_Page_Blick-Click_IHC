@@ -2040,7 +2040,8 @@ html[data-theme="light"] .back-arrow {
         height: auto;
         top: 140px;
         bottom: auto;
-        left: 30px;
+        right: 30px;
+        left: auto;
         border-radius: 20px;
         padding: 24px 18px;
     }
@@ -2072,7 +2073,7 @@ html[data-theme="light"] .back-arrow {
     }
 
     .app-shell .main-content {
-        padding-left: 180px;
+        padding-right: 220px;
     }
 }
 
@@ -5135,6 +5136,15 @@ body {
     font-size: 20px;
     font-weight: 600;
     color: #fff;
+    padding: 8px;
+    box-sizing: border-box;
+}
+
+.account-icon svg {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+    flex-shrink: 0;
 }
 
 .account-name {
@@ -5339,6 +5349,8 @@ body {
     width: 100%;
     max-width: 400px;
     align-items: center;
+    margin: 0 auto;
+    justify-content: center;
 }
 
 .adjustment-actions .action-button {
@@ -5750,6 +5762,14 @@ body {
     font-size: 40px;
     font-weight: 700;
     color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-icon svg {
+    width: 100%;
+    height: 100%;
 }
 
 .login-title {
